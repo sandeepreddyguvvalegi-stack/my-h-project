@@ -1,4 +1,3 @@
-
 /* RESET */
 * {
   margin: 0;
@@ -6,20 +5,17 @@
   box-sizing: border-box;
 }
 
-/* PAGE */
+/* MAIN PAGE */
 .home-container {
-  overflow-y: auto;
-  overflow-x: hidden;
-
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-
+  overflow: hidden; /* ❌ full page scroll disabled */
   font-family: Arial, sans-serif;
   background-color: #f7f7f7;
 }
 
-/* HERO */
+/* ================= HERO (FIXED HEADER) ================= */
 .hero-section {
   background-color: #f3efeff9;
   width: 100%;
@@ -28,6 +24,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  flex-shrink: 0; /* keep fixed */
 }
 
 /* TITLE */
@@ -36,13 +34,12 @@
   margin-bottom: 20px;
 }
 
-/* ⭐ SEARCH + MENU ROW */
+/* TOP ROW */
 .top-row {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 20px;
-
   width: 100%;
 }
 
@@ -80,47 +77,83 @@
 }
 
 /* MENU */
-.menu-right {
-  display: flex;
-  gap: 10px;
+.menu-wrapper {
+  position: relative;
 }
 
-.menu-btn {
-  padding: 10px 14px;
+.menu-icon {
+  width: 45px;
+  height: 45px;
   background: white;
-
-  border-radius: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-
-  transition: 0.2s;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-.menu-btn:hover {
-  transform: scale(1.05);
+/* DROPDOWN */
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 55px;
+  background: white;
+  width: 150px;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  overflow: hidden;
+  z-index: 100;
+}
+
+.dropdown-item {
+  padding: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+.dropdown-item:hover {
   background: #f2f2f2;
 }
 
-/* HOSTEL ROW */
+/* ================= HOSTEL SECTION (ONLY SCROLL AREA) ================= */
+.hostel-section {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: white;
+  padding: 15px;
+}
+
+/* ================= GRID SECTION ================= */
 .hostel-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 cards per row */
   gap: 20px;
-
-  overflow-x: auto;
-  overflow-y: hidden;
-
-  padding: 10px;
-  scroll-behavior: smooth;
 }
 
-.hostel-row::-webkit-scrollbar {
-  display: none;
+/* RESPONSIVE GRID */
+@media (max-width: 1200px) {
+  .hostel-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
-/* CARD */
+@media (max-width: 900px) {
+  .hostel-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .hostel-row {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+/* ================= CARD ================= */
 .hostel-card {
-  flex: 0 0 250px;
   cursor: pointer;
 }
 
@@ -164,7 +197,6 @@
 /* DETAILS */
 .hostel-details {
   padding: 10px 5px;
-  background: transparent;
 }
 
 .location {
@@ -191,65 +223,21 @@
   font-size: 13px;
   background: white;
 }
-.hostel-section{
-    background-color:white;
-}
 
-/* TOP ROW */
-.top-row {
+/* ================= HORIZONTAL SECTION (AFTER 36) ================= */
+.horizontal-row {
   display: flex;
-  align-items: center;
-  justify-content: center;
   gap: 20px;
+  overflow-x: auto;
+  padding: 20px 0;
+  margin-top: 20px;
 }
 
-/* MENU WRAPPER */
-.menu-wrapper {
-  position: relative;
+.horizontal-row::-webkit-scrollbar {
+  display: none;
 }
 
-/* MENU ICON */
-.menu-icon {
-  width: 45px;
-  height: 45px;
-
-  background: white;
-  border-radius: 50%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  cursor: pointer;
-
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-/* DROPDOWN */
-.dropdown-menu {
-  position: absolute;
-  right: 0;
-  top: 55px;
-
-  background: white;
-  width: 150px;
-
-  border-radius: 10px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-
-  overflow: hidden;
-  z-index: 100;
-}
-
-/* ITEMS */
-.dropdown-item {
-  padding: 12px;
-  cursor: pointer;
-  font-size: 14px;
-
-  border-bottom: 1px solid #eee;
-}
-
-.dropdown-item:hover {
-  background: #f2f2f2;
+/* small cards in horizontal section */
+.horizontal-row .hostel-card {
+  min-width: 250px;
 }
