@@ -2,13 +2,23 @@ import "./Home.css";
 import { FaSearch, FaBars } from "react-icons/fa";
 import { useState } from "react";
 
+import hostelsData from "../data/hostels";
+
 function Home() {
 
   const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+
+  // FILTER HOSTELS
+  const filteredHostels = hostelsData.filter((h) =>
+    h.name.toLowerCase().includes(search.toLowerCase()) ||
+    h.location.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div className="home-container">
 
+      {/* HERO SECTION */}
       <div className="hero-section">
 
         <h1 className="app-title">Homfsy</h1>
@@ -18,27 +28,41 @@ function Home() {
 
           {/* SEARCH */}
           <div className="search-box">
+
             <input
               type="text"
               placeholder="Search hostel, city or near me"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
 
             <button>
               <FaSearch />
             </button>
+
           </div>
 
           {/* MENU */}
           <div className="menu-wrapper">
 
-            <div className="menu-icon" onClick={() => setOpen(!open)}>
+            <div
+              className="menu-icon"
+              onClick={() => setOpen(!open)}
+            >
               <FaBars />
             </div>
 
             {open && (
               <div className="dropdown-menu">
-                <div className="dropdown-item">Profile</div>
-                <div className="dropdown-item">Add Hostel</div>
+
+                <div className="dropdown-item">
+                  Profile
+                </div>
+
+                <div className="dropdown-item">
+                  Add Hostel
+                </div>
+
               </div>
             )}
 
@@ -48,98 +72,59 @@ function Home() {
 
       </div>
 
-      {/* HOSTEL SECTION (UNCHANGED) */}
+      {/* HOSTEL SECTION */}
       <div className="hostel-section">
 
         <div className="hostel-row">
 
-          {/* 1 */}
-          <div className="hostel-card">
-            <div className="hostel-image">
-              <img src="https://source.unsplash.com/400x300/?hostel,room" />
-              <div className="hostel-name-overlay">Sunrise PG</div>
+          {filteredHostels.map((hostel) => (
+
+            <div
+              className="hostel-card"
+              key={hostel.id}
+            >
+
+              {/* IMAGE */}
+              <div className="hostel-image">
+
+                <img
+                  src={hostel.image}
+                  alt={hostel.name}
+                />
+
+                <div className="hostel-name-overlay">
+                  {hostel.name}
+                </div>
+
+              </div>
+
+              {/* DETAILS */}
+              <div className="hostel-details">
+
+                <p className="location">
+                  {hostel.location}
+                </p>
+
+                <select className="sharing-select">
+                  <option>2 Sharing</option>
+                  <option>3 Sharing</option>
+                  <option>4 Sharing</option>
+                  <option>Single Room</option>
+                </select>
+
+                <p className="price">
+                  ₹{hostel.price} / month
+                </p>
+
+                <p className="rating">
+                  ⭐ {hostel.rating}
+                </p>
+
+              </div>
+
             </div>
 
-            <div className="hostel-details">
-              <p className="location">Hyderabad</p>
-
-              <select className="sharing-select">
-                <option>2 Sharing</option>
-                <option>3 Sharing</option>
-                <option>4 Sharing</option>
-                <option>Single Room</option>
-              </select>
-
-              <p className="price">₹6000 / month</p>
-              <p className="rating">⭐ 4.5</p>
-            </div>
-          </div>
-
-          {/* 2 */}
-          <div className="hostel-card">
-            <div className="hostel-image">
-              <img src="https://source.unsplash.com/400x300/?hostel,bed" />
-              <div className="hostel-name-overlay">City Stay Hostel</div>
-            </div>
-
-            <div className="hostel-details">
-              <p className="location">Bangalore</p>
-
-              <select className="sharing-select">
-                <option>2 Sharing</option>
-                <option>3 Sharing</option>
-                <option>4 Sharing</option>
-                <option>Single Room</option>
-              </select>
-
-              <p className="price">₹5500 / month</p>
-              <p className="rating">⭐ 4.2</p>
-            </div>
-          </div>
-
-          {/* 3 */}
-          <div className="hostel-card">
-            <div className="hostel-image">
-              <img src="https://source.unsplash.com/400x300/?pg,room" />
-              <div className="hostel-name-overlay">Green Nest PG</div>
-            </div>
-
-            <div className="hostel-details">
-              <p className="location">Chennai</p>
-
-              <select className="sharing-select">
-                <option>2 Sharing</option>
-                <option>3 Sharing</option>
-                <option>4 Sharing</option>
-                <option>Single Room</option>
-              </select>
-
-              <p className="price">₹7000 / month</p>
-              <p className="rating">⭐ 4.6</p>
-            </div>
-          </div>
-
-          {/* 4 */}
-          <div className="hostel-card">
-            <div className="hostel-image">
-              <img src="https://source.unsplash.com/400x300/?dormitory" />
-              <div className="hostel-name-overlay">Royal Boys Hostel</div>
-            </div>
-
-            <div className="hostel-details">
-              <p className="location">Vijayawada</p>
-
-              <select className="sharing-select">
-                <option>2 Sharing</option>
-                <option>3 Sharing</option>
-                <option>4 Sharing</option>
-                <option>Single Room</option>
-              </select>
-
-              <p className="price">₹4500 / month</p>
-              <p className="rating">⭐ 4.1</p>
-            </div>
-          </div>
+          ))}
 
         </div>
 
