@@ -1,34 +1,30 @@
 import "./Home.css";
 import { FaSearch, FaBars } from "react-icons/fa";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import hostelsData from "../data/hostels";
 
 function Home() {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
-
-  // how many cards visible (3 rows = 12 cards)
   const [visibleCount, setVisibleCount] = useState(12);
 
-  // FILTER
+  const navigate = useNavigate();
+
   const filteredHostels = hostelsData.filter((h) =>
     h.name.toLowerCase().includes(search.toLowerCase()) ||
     h.location.toLowerCase().includes(search.toLowerCase())
   );
 
-  // vertical grid data (max 36 = 9 rows)
   const gridHostels = filteredHostels.slice(0, Math.min(visibleCount, 36));
-
-  // horizontal extra section after 36
   const horizontalHostels = filteredHostels.slice(36);
 
-  // scroll handler (load more)
   const handleScroll = (e) => {
     const bottom =
       e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
 
     if (bottom && visibleCount < 36) {
-      setVisibleCount((prev) => prev + 12); // add 3 more rows
+      setVisibleCount((prev) => prev + 12);
     }
   };
 
@@ -48,7 +44,7 @@ function Home() {
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
-                setVisibleCount(12); // reset on search
+                setVisibleCount(12);
               }}
             />
             <button>
@@ -67,7 +63,13 @@ function Home() {
             {open && (
               <div className="dropdown-menu">
                 <div className="dropdown-item">Profile</div>
-                <div className="dropdown-item">Add Hostel</div>
+
+                <div
+                  className="dropdown-item"
+                  onClick={() => navigate("/add-hostel")}
+                >
+                  Add Hostel
+                </div>
               </div>
             )}
           </div>
@@ -78,7 +80,6 @@ function Home() {
       {/* SCROLL AREA */}
       <div className="hostel-section" onScroll={handleScroll}>
 
-        {/* GRID SECTION */}
         <div className="hostel-row">
           {gridHostels.map((hostel) => (
             <div className="hostel-card" key={hostel.id}>
@@ -91,22 +92,13 @@ function Home() {
 
               <div className="hostel-details">
                 <p className="location">{hostel.location}</p>
-
-                <select className="sharing-select">
-                  <option>2 Sharing</option>
-                  <option>3 Sharing</option>
-                  <option>4 Sharing</option>
-                  <option>Single Room</option>
-                </select>
-
-                <p className="price">₹{hostel.price} / month</p>
+                <p className="price">₹{hostel.price}</p>
                 <p className="rating">⭐ {hostel.rating}</p>
               </div>
             </div>
           ))}
         </div>
 
-        {/* HORIZONTAL SECTION (AFTER 36) */}
         {horizontalHostels.length > 0 && (
           <div className="horizontal-row">
             {horizontalHostels.map((hostel) => (
