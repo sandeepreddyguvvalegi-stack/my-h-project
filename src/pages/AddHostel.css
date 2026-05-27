@@ -9,6 +9,8 @@
 
   padding: 30px;
   font-family: Arial;
+
+  position: relative;
 }
 
 .add-hostel-container h2 {
@@ -19,18 +21,22 @@
 .form-box {
   width: 380px;
   background: white;
+
   padding: 20px;
 
   border-radius: 12px;
+
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 
   display: flex;
   flex-direction: column;
+
   gap: 12px;
 }
 
 .form-box input {
   padding: 10px;
+
   border: 1px solid #ddd;
   border-radius: 8px;
 
@@ -44,20 +50,39 @@
 .floor-box {
   display: flex;
   flex-direction: column;
-  gap: 5px;
 
   padding: 8px;
-  background: #f9f9f9;
+
+  background: #f8f8f8;
   border-radius: 8px;
+
+  margin-bottom: 10px;
 }
 
 .floor-box label {
   font-size: 13px;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.form-box input[type="file"] {
+  padding: 8px;
+
+  border: 1px solid #ddd;
+  border-radius: 8px;
+
+  background: white;
+}
+
+.form-box label {
+  font-size: 13px;
+  margin-top: 10px;
   color: #444;
 }
 
 .form-box button {
   padding: 12px;
+
   background: #ff385c;
   color: white;
 
@@ -70,29 +95,33 @@
 .form-box button:hover {
   background: #e03150;
 }
-.floor-box {
-  display: flex;
-  flex-direction: column;
-  padding: 8px;
-  background: #f8f8f8;
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
 
-.floor-box label {
-  font-size: 13px;
-  margin-bottom: 5px;
-  color: #333;
-}
-.form-box input[type="file"] {
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+/* BACK BUTTON */
+
+.back-btn {
+  width: 45px;
+  height: 45px;
+
   background: white;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+
+  position: absolute;
+
+  top: 20px;
+  left: 20px;
+
+  transition: 0.2s;
 }
 
-.form-box label {
-  font-size: 13px;
-  margin-top: 10px;
-  color: #444;
+.back-btn:hover {
+  transform: scale(1.05);
 }
