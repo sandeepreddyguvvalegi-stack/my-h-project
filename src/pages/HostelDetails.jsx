@@ -14,6 +14,29 @@ function HostelDetails() {
 
   const [imgIndex, setImgIndex] = useState(0);
 
+  /* ZOOM */
+  const [zoomMode, setZoomMode] = useState(false);
+
+  const [position, setPosition] = useState({
+    x: 50,
+    y: 50
+  });
+
+  const handleMove = (e) => {
+
+    if (!zoomMode) return;
+
+    const rect = e.target.getBoundingClientRect();
+
+    const x =
+      ((e.clientX - rect.left) / rect.width) * 100;
+
+    const y =
+      ((e.clientY - rect.top) / rect.height) * 100;
+
+    setPosition({ x, y });
+  };
+
   const floors = [1, 2, 3];
 
   const rooms = {
@@ -29,6 +52,7 @@ function HostelDetails() {
   const [selectedBed, setSelectedBed] = useState(null);
 
   const [days, setDays] = useState(15);
+
   const pricePerDay = 200;
 
   const next = () =>
@@ -38,23 +62,29 @@ function HostelDetails() {
     setImgIndex((p) => (p - 1 + images.length) % images.length);
 
   const getPath = () => {
+
     let path = [];
+
     if (activeFloor) path.push(`Floor ${activeFloor}`);
     if (activeRoom) path.push(`Room ${activeRoom}`);
     if (selectedBed) path.push(`Bed ${selectedBed}`);
+
     return path.join(" > ");
   };
 
-  /* ================= OCCUPANCY ================= */
-
   const getFloorOccupancy = (f) => {
+
     const total = rooms[f].length;
+
     const percent = ((f + 1) / total) * 100;
+
     return Math.min(100, percent).toFixed(0);
   };
 
   const getRoomOccupancy = (r) => {
+
     const n = Number(r.slice(-1));
+
     return Math.min(100, n * 25);
   };
 
@@ -63,12 +93,16 @@ function HostelDetails() {
   return (
 
     <div className="page">
-        {/* BACK BUTTON */}
-<div className="floatingBack" onClick={() => navigate("/")}>
-  ← Home
-</div>
 
-      {/* ================= HOSTEL HEADER BOX ================= */}
+      {/* HOME BUTTON */}
+      <div
+        className="floatingBack"
+        onClick={() => navigate("/")}
+      >
+        ← Home
+      </div>
+
+      {/* HOSTEL */}
       <div className="hostelBox">
 
         <h1>Sri Balaji Boys Hostel</h1>
@@ -79,31 +113,59 @@ function HostelDetails() {
 
       </div>
 
-      {/* IMAGE */}
+      {/* IMAGE SLIDER */}
       <div className="slider">
+
         <button onClick={prev}>◀</button>
-        <img src={images[imgIndex]} />
+
+        <div className="imageWrapper">
+
+          <img
+            src={images[imgIndex]}
+            onClick={() => setZoomMode(!zoomMode)}
+            onMouseMove={handleMove}
+            className={zoomMode ? "zoomImage" : ""}
+            style={{
+              transformOrigin:
+                `${position.x}% ${position.y}%`
+            }}
+          />
+
+        </div>
+
         <button onClick={next}>▶</button>
+
       </div>
 
-      {/* ================= FLOORS ================= */}
+      {/* FLOORS */}
       {!activeFloor && (
 
         <div className="stageBox">
 
-          <h3 style={{ textAlign: "center" }}>Select Floor</h3>
+          <h3 className="centerTitle">
+            Select Floor
+          </h3>
 
-          <div className="corridorView centerAlign">
+          <div className="corridorView">
 
             {floors.map((f) => (
+
               <div
                 key={f}
                 className="floorTile"
                 onClick={() => setActiveFloor(f)}
               >
-                Floor {f}
-                <small>{getFloorOccupancy(f)}%</small>
+
+                <span>
+                  Floor {f}
+                </span>
+
+                <small>
+                  Occupancy {getFloorOccupancy(f)}%
+                </small>
+
               </div>
+
             ))}
 
           </div>
@@ -112,29 +174,46 @@ function HostelDetails() {
 
       )}
 
-      {/* ================= ROOMS ================= */}
+      {/* ROOMS */}
       {activeFloor && !activeRoom && (
 
         <div className="stageBox">
 
           <div className="stageHeader">
-            <button className="backBtn" onClick={() => setActiveFloor(null)}>
+
+            <button
+              className="backBtn"
+              onClick={() => setActiveFloor(null)}
+            >
               ← Back
             </button>
-            <h3>Floor {activeFloor}</h3>
+
+            <h3>
+              Floor {activeFloor}
+            </h3>
+
           </div>
 
           <div className="corridorView">
 
             {rooms[activeFloor].map((r) => (
+
               <div
                 key={r}
                 className="roomTile"
                 onClick={() => setActiveRoom(r)}
               >
-                {r}
-                <small>{getRoomOccupancy(r)}%</small>
+
+                <span>
+                  Room {r}
+                </span>
+
+                <small>
+                  Occupancy {getRoomOccupancy(r)}%
+                </small>
+
               </div>
+
             ))}
 
           </div>
@@ -143,28 +222,42 @@ function HostelDetails() {
 
       )}
 
-      {/* ================= BEDS ================= */}
+      {/* BEDS */}
       {activeRoom && (
 
         <div className="stageBox">
 
           <div className="stageHeader">
-            <button className="backBtn" onClick={() => setActiveRoom(null)}>
+
+            <button
+              className="backBtn"
+              onClick={() => setActiveRoom(null)}
+            >
               ← Back
             </button>
-            <h3>Room {activeRoom}</h3>
+
+            <h3>
+              Room {activeRoom}
+            </h3>
+
           </div>
 
           <div className="corridorView">
 
             {beds.map((b) => (
+
               <div
                 key={b}
-                className={`bedTile ${selectedBed === b ? "activeBed" : ""}`}
+                className={`bedTile ${
+                  selectedBed === b
+                    ? "activeBed"
+                    : ""
+                }`}
                 onClick={() => setSelectedBed(b)}
               >
                 {b}
               </div>
+
             ))}
 
           </div>
@@ -173,7 +266,7 @@ function HostelDetails() {
 
       )}
 
-      {/* ================= BOOKING ================= */}
+      {/* BOOKING */}
       {selectedBed && (
 
         <div className="bookingModern">
@@ -184,58 +277,98 @@ function HostelDetails() {
 
           {/* DAYS */}
           <div className="box">
+
             <h4>Days</h4>
 
             <input
+              className="daysInput"
               value={days}
-              onChange={(e) => setDays(Number(e.target.value))}
+              onChange={(e) =>
+                setDays(Number(e.target.value))
+              }
             />
 
             <div className="btnRow">
-              {[15, 30, 45, 60, 90].map((d) => (
+
+              {[5,10,15,30,45,60,90].map((d) => (
+
                 <button
                   key={d}
-                  className={days === d ? "activeBtn" : ""}
+                  className={
+                    days === d
+                      ? "activeBtn"
+                      : ""
+                  }
                   onClick={() => setDays(d)}
                 >
-                  {d}
+                  {d}D
                 </button>
+
               ))}
+
             </div>
+
           </div>
 
           {/* MONTHS */}
           <div className="box">
+
             <h4>Months</h4>
 
             <div className="btnRow">
-              {[1, 3, 6, 12].map((m) => (
+
+              {[1,2,3,4,5,6,7,8,9,10,11,12].map((m) => (
+
                 <button
-                  className={days === m * 30 ? "activeBtn" : ""}
-                  onClick={() => setDays(m * 30)}
+                  key={m}
+                  className={
+                    days === m * 30
+                      ? "activeBtn"
+                      : ""
+                  }
+                  onClick={() =>
+                    setDays(m * 30)
+                  }
                 >
                   {m}M
                 </button>
+
               ))}
+
             </div>
+
           </div>
 
           {/* YEARS */}
           <div className="box">
+
             <h4>Years</h4>
 
             <div className="btnRow">
-              {[1, 2, 3].map((y) => (
+
+              {[1,2,3].map((y) => (
+
                 <button
-                  className={days === y * 365 ? "activeBtn" : ""}
-                  onClick={() => setDays(y * 365)}
+                  key={y}
+                  className={
+                    days === y * 365
+                      ? "activeBtn"
+                      : ""
+                  }
+                  onClick={() =>
+                    setDays(y * 365)
+                  }
                 >
                   {y}Y
                 </button>
+
               ))}
+
             </div>
+
           </div>
 
+          {/* PRICE */}
           <div className="priceBox">
             ₹{totalPrice}
           </div>
