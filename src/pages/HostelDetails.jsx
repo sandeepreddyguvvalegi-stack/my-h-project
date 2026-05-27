@@ -1,5 +1,10 @@
 import "./HostelDetails.css";
-import { useState } from "react";
+import {
+  useState,
+  useRef,
+  useEffect
+} from "react";
+
 import { useNavigate } from "react-router-dom";
 
 function HostelDetails() {
@@ -12,6 +17,7 @@ function HostelDetails() {
     "https://images.unsplash.com/photo-1555854877-bab0e564b8d5"
   ];
 
+  /* IMAGE */
   const [imgIndex, setImgIndex] = useState(0);
 
   /* ZOOM */
@@ -26,7 +32,8 @@ function HostelDetails() {
 
     if (!zoomMode) return;
 
-    const rect = e.target.getBoundingClientRect();
+    const rect =
+      e.target.getBoundingClientRect();
 
     const x =
       ((e.clientX - rect.left) / rect.width) * 100;
@@ -37,6 +44,7 @@ function HostelDetails() {
     setPosition({ x, y });
   };
 
+  /* FLOORS */
   const floors = [1, 2, 3];
 
   const rooms = {
@@ -47,40 +55,82 @@ function HostelDetails() {
 
   const beds = ["A1", "A2", "B1", "B2"];
 
-  const [activeFloor, setActiveFloor] = useState(null);
-  const [activeRoom, setActiveRoom] = useState(null);
-  const [selectedBed, setSelectedBed] = useState(null);
+  const [activeFloor, setActiveFloor] =
+    useState(null);
 
+  const [activeRoom, setActiveRoom] =
+    useState(null);
+
+  const [selectedBed, setSelectedBed] =
+    useState(null);
+
+  /* BOOKING SCROLL */
+  const bookingRef = useRef(null);
+
+  useEffect(() => {
+
+    if (
+      selectedBed &&
+      bookingRef.current
+    ) {
+
+      bookingRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+
+    }
+
+  }, [selectedBed]);
+
+  /* DAYS */
   const [days, setDays] = useState(15);
 
   const pricePerDay = 200;
 
   const next = () =>
-    setImgIndex((p) => (p + 1) % images.length);
+    setImgIndex(
+      (p) => (p + 1) % images.length
+    );
 
   const prev = () =>
-    setImgIndex((p) => (p - 1 + images.length) % images.length);
+    setImgIndex(
+      (p) =>
+        (p - 1 + images.length) %
+        images.length
+    );
 
   const getPath = () => {
 
     let path = [];
 
-    if (activeFloor) path.push(`Floor ${activeFloor}`);
-    if (activeRoom) path.push(`Room ${activeRoom}`);
-    if (selectedBed) path.push(`Bed ${selectedBed}`);
+    if (activeFloor)
+      path.push(`Floor ${activeFloor}`);
+
+    if (activeRoom)
+      path.push(`Room ${activeRoom}`);
+
+    if (selectedBed)
+      path.push(`Bed ${selectedBed}`);
 
     return path.join(" > ");
   };
 
+  /* FLOOR OCCUPANCY */
   const getFloorOccupancy = (f) => {
 
     const total = rooms[f].length;
 
-    const percent = ((f + 1) / total) * 100;
+    const percent =
+      ((f + 1) / total) * 100;
 
-    return Math.min(100, percent).toFixed(0);
+    return Math.min(
+      100,
+      percent
+    ).toFixed(0);
   };
 
+  /* ROOM OCCUPANCY */
   const getRoomOccupancy = (r) => {
 
     const n = Number(r.slice(-1));
@@ -88,13 +138,14 @@ function HostelDetails() {
     return Math.min(100, n * 25);
   };
 
-  const totalPrice = days * pricePerDay;
+  const totalPrice =
+    days * pricePerDay;
 
   return (
 
     <div className="page">
 
-      {/* HOME BUTTON */}
+      {/* HOME */}
       <div
         className="floatingBack"
         onClick={() => navigate("/")}
@@ -105,26 +156,42 @@ function HostelDetails() {
       {/* HOSTEL */}
       <div className="hostelBox">
 
-        <h1>Sri Balaji Boys Hostel</h1>
+        <h1>
+          Sri Balaji Boys Hostel
+        </h1>
 
         <div className="hostelOccupancy">
-          Occupancy: {Math.min(100, floors.length * 30)}%
+          Occupancy:
+          {" "}
+          {Math.min(
+            100,
+            floors.length * 30
+          )}
+          %
         </div>
 
       </div>
 
-      {/* IMAGE SLIDER */}
+      {/* IMAGE */}
       <div className="slider">
 
-        <button onClick={prev}>◀</button>
+        <button onClick={prev}>
+          ◀
+        </button>
 
         <div className="imageWrapper">
 
           <img
             src={images[imgIndex]}
-            onClick={() => setZoomMode(!zoomMode)}
+            onClick={() =>
+              setZoomMode(!zoomMode)
+            }
             onMouseMove={handleMove}
-            className={zoomMode ? "zoomImage" : ""}
+            className={
+              zoomMode
+                ? "zoomImage"
+                : ""
+            }
             style={{
               transformOrigin:
                 `${position.x}% ${position.y}%`
@@ -133,7 +200,9 @@ function HostelDetails() {
 
         </div>
 
-        <button onClick={next}>▶</button>
+        <button onClick={next}>
+          ▶
+        </button>
 
       </div>
 
@@ -153,7 +222,9 @@ function HostelDetails() {
               <div
                 key={f}
                 className="floorTile"
-                onClick={() => setActiveFloor(f)}
+                onClick={() =>
+                  setActiveFloor(f)
+                }
               >
 
                 <span>
@@ -161,7 +232,10 @@ function HostelDetails() {
                 </span>
 
                 <small>
-                  Occupancy {getFloorOccupancy(f)}%
+                  Occupancy
+                  {" "}
+                  {getFloorOccupancy(f)}
+                  %
                 </small>
 
               </div>
@@ -175,7 +249,8 @@ function HostelDetails() {
       )}
 
       {/* ROOMS */}
-      {activeFloor && !activeRoom && (
+      {activeFloor &&
+        !activeRoom && (
 
         <div className="stageBox">
 
@@ -183,7 +258,9 @@ function HostelDetails() {
 
             <button
               className="backBtn"
-              onClick={() => setActiveFloor(null)}
+              onClick={() =>
+                setActiveFloor(null)
+              }
             >
               ← Back
             </button>
@@ -196,25 +273,32 @@ function HostelDetails() {
 
           <div className="corridorView">
 
-            {rooms[activeFloor].map((r) => (
+            {rooms[activeFloor].map(
+              (r) => (
 
-              <div
-                key={r}
-                className="roomTile"
-                onClick={() => setActiveRoom(r)}
-              >
+                <div
+                  key={r}
+                  className="roomTile"
+                  onClick={() =>
+                    setActiveRoom(r)
+                  }
+                >
 
-                <span>
-                  Room {r}
-                </span>
+                  <span>
+                    Room {r}
+                  </span>
 
-                <small>
-                  Occupancy {getRoomOccupancy(r)}%
-                </small>
+                  <small>
+                    Occupancy
+                    {" "}
+                    {getRoomOccupancy(r)}
+                    %
+                  </small>
 
-              </div>
+                </div>
 
-            ))}
+              )
+            )}
 
           </div>
 
@@ -231,7 +315,9 @@ function HostelDetails() {
 
             <button
               className="backBtn"
-              onClick={() => setActiveRoom(null)}
+              onClick={() =>
+                setActiveRoom(null)
+              }
             >
               ← Back
             </button>
@@ -253,7 +339,9 @@ function HostelDetails() {
                     ? "activeBed"
                     : ""
                 }`}
-                onClick={() => setSelectedBed(b)}
+                onClick={() =>
+                  setSelectedBed(b)
+                }
               >
                 {b}
               </div>
@@ -269,7 +357,10 @@ function HostelDetails() {
       {/* BOOKING */}
       {selectedBed && (
 
-        <div className="bookingModern">
+        <div
+          className="bookingModern"
+          ref={bookingRef}
+        >
 
           <h2>Booking</h2>
 
@@ -284,27 +375,33 @@ function HostelDetails() {
               className="daysInput"
               value={days}
               onChange={(e) =>
-                setDays(Number(e.target.value))
+                setDays(
+                  Number(e.target.value)
+                )
               }
             />
 
             <div className="btnRow">
 
-              {[5,10,15,30,45,60,90].map((d) => (
+              {[5,10,15,30,45,60,90].map(
+                (d) => (
 
-                <button
-                  key={d}
-                  className={
-                    days === d
-                      ? "activeBtn"
-                      : ""
-                  }
-                  onClick={() => setDays(d)}
-                >
-                  {d}D
-                </button>
+                  <button
+                    key={d}
+                    className={
+                      days === d
+                        ? "activeBtn"
+                        : ""
+                    }
+                    onClick={() =>
+                      setDays(d)
+                    }
+                  >
+                    {d}D
+                  </button>
 
-              ))}
+                )
+              )}
 
             </div>
 
@@ -317,23 +414,25 @@ function HostelDetails() {
 
             <div className="btnRow">
 
-              {[1,2,3,4,5,6,7,8,9,10,11,12].map((m) => (
+              {[1,2,3,4,5,6,7,8,9,10,11,12].map(
+                (m) => (
 
-                <button
-                  key={m}
-                  className={
-                    days === m * 30
-                      ? "activeBtn"
-                      : ""
-                  }
-                  onClick={() =>
-                    setDays(m * 30)
-                  }
-                >
-                  {m}M
-                </button>
+                  <button
+                    key={m}
+                    className={
+                      days === m * 30
+                        ? "activeBtn"
+                        : ""
+                    }
+                    onClick={() =>
+                      setDays(m * 30)
+                    }
+                  >
+                    {m}M
+                  </button>
 
-              ))}
+                )
+              )}
 
             </div>
 
