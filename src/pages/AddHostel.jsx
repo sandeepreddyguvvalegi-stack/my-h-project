@@ -19,7 +19,6 @@ function AddHostel() {
   const [bedsPerRoom, setBedsPerRoom] = useState(4);
   const [customBeds, setCustomBeds] = useState({});
 
-  // ✅ REAL IMAGES STATE
   const [images, setImages] = useState({
     front: null,
     adminBlock: null,
@@ -67,7 +66,7 @@ function AddHostel() {
     return customBeds[roomNo] || bedsPerRoom;
   };
 
-  // 🟢 FINAL FIXED SUBMIT (REAL IMAGES)
+  // ✅ FIXED SUBMIT (ONLY IMPORTANT FIX HERE)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -87,7 +86,6 @@ function AddHostel() {
       }
     }
 
-    // 🟢 IMPORTANT: USE FORMDATA (NOT JSON)
     const formData = new FormData();
 
     formData.append("name", form.name);
@@ -99,7 +97,6 @@ function AddHostel() {
     formData.append("totalBeds", totalBeds);
     formData.append("customBeds", JSON.stringify(customBeds));
 
-    // 🟢 ADD ALL IMAGES
     Object.keys(images).forEach((key) => {
       if (images[key]) {
         formData.append("images", images[key]);
@@ -107,16 +104,13 @@ function AddHostel() {
     });
 
     try {
-      await API.post("/hostels", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      });
+      // 🔥 IMPORTANT FIX: NO HEADERS
+      await API.post("/hostels", formData);
 
       alert("Hostel Added Successfully!");
       navigate("/");
     } catch (error) {
-      console.log(error);
+      console.log(error.response?.data || error.message);
       alert("Failed to add hostel");
     }
   };
@@ -124,7 +118,6 @@ function AddHostel() {
   return (
     <div className="add-hostel-container">
 
-      {/* BACK */}
       <div className="back-btn" onClick={() => navigate("/")}>
         <FaArrowLeft />
       </div>
@@ -134,9 +127,23 @@ function AddHostel() {
       <form onSubmit={handleSubmit} className="form-box">
 
         {/* BASIC INFO */}
-        <input name="name" placeholder="Hostel Name" onChange={handleChange} />
-        <input name="location" placeholder="Location" onChange={handleChange} />
-        <input name="price" placeholder="Recommended Price" onChange={handleChange} />
+        <input
+          name="name"
+          placeholder="Hostel Name"
+          onChange={handleChange}
+        />
+
+        <input
+          name="location"
+          placeholder="Location"
+          onChange={handleChange}
+        />
+
+        <input
+          name="price"
+          placeholder="Recommended Price"
+          onChange={handleChange}
+        />
 
         {/* FLOORS */}
         <input
@@ -196,7 +203,7 @@ function AddHostel() {
           )}
         </div>
 
-        {/* 🟢 REAL IMAGES UPLOAD */}
+        {/* IMAGES */}
         <label>Front Photo</label>
         <input type="file" name="front" onChange={handleImageChange} />
 
