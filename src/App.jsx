@@ -1,4 +1,10 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./App.css";
+
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom";
 
 import Home from "./pages/Home";
 
@@ -14,31 +20,27 @@ function App() {
 
       <Routes>
 
-        {/* HOME */}
-
         <Route
           path="/"
           element={<Home />}
         />
-
-        {/* ADD HOSTEL */}
 
         <Route
           path="/add-hostel"
           element={<AddHostel />}
         />
 
-        {/* HOSTEL DETAILS */}
-
         <Route
-          path="/hostel-details"
+          path="/hostel-details/:id"
           element={<HostelDetails />}
         />
 
       </Routes>
 
     </BrowserRouter>
+
   );
+
 }
 
 export default App;

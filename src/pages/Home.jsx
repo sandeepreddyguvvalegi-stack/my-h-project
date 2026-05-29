@@ -1,8 +1,13 @@
 import "./Home.css";
 import { FaSearch, FaBars } from "react-icons/fa";
-import { useState } from "react";
+import {
+  useState,
+  useEffect
+} from "react";
+
 import { useNavigate } from "react-router-dom";
-import hostelsData from "../data/hostels";
+
+import API from "../api/hostelApi";
 
 function Home() {
 
@@ -10,27 +15,64 @@ function Home() {
 
   const [search, setSearch] = useState("");
 
-  const [visibleCount, setVisibleCount] = useState(12);
+  const [visibleCount, setVisibleCount] =
+    useState(12);
+
+  const [hostels, setHostels] =
+    useState([]);
 
   const navigate = useNavigate();
 
-  // FILTER HOSTELS
+  // FETCH HOSTELS
 
-  const filteredHostels = hostelsData.filter((h) =>
-    h.name.toLowerCase().includes(search.toLowerCase()) ||
-    h.location.toLowerCase().includes(search.toLowerCase())
-  );
+  useEffect(() => {
 
-  // GRID HOSTELS
+    fetchHostels();
 
-  const gridHostels = filteredHostels.slice(
-    0,
-    Math.min(visibleCount, 36)
-  );
+  }, []);
 
-  // HORIZONTAL HOSTELS
+  const fetchHostels = async () => {
 
-  const horizontalHostels = filteredHostels.slice(36);
+    try {
+
+      const response =
+        await API.get("/hostels");
+
+      setHostels(response.data);
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+
+  };
+
+  // FILTER
+
+  const filteredHostels =
+    hostels.filter((h) =>
+      h.name
+        .toLowerCase()
+        .includes(search.toLowerCase()) ||
+
+      h.location
+        .toLowerCase()
+        .includes(search.toLowerCase())
+    );
+
+  // GRID
+
+  const gridHostels =
+    filteredHostels.slice(
+      0,
+      Math.min(visibleCount, 36)
+    );
+
+  // HORIZONTAL
+
+  const horizontalHostels =
+    filteredHostels.slice(36);
 
   // SCROLL
 
@@ -41,9 +83,17 @@ function Home() {
         e.target.scrollTop ===
       e.target.clientHeight;
 
-    if (bottom && visibleCount < 36) {
-      setVisibleCount((prev) => prev + 12);
+    if (
+      bottom &&
+      visibleCount < 36
+    ) {
+
+      setVisibleCount(
+        (prev) => prev + 12
+      );
+
     }
+
   };
 
   return (
@@ -69,8 +119,13 @@ function Home() {
               placeholder="Search hostel, city or near me"
               value={search}
               onChange={(e) => {
-                setSearch(e.target.value);
+
+                setSearch(
+                  e.target.value
+                );
+
                 setVisibleCount(12);
+
               }}
             />
 
@@ -86,7 +141,9 @@ function Home() {
 
             <div
               className="menu-icon"
-              onClick={() => setOpen(!open)}
+              onClick={() =>
+                setOpen(!open)
+              }
             >
               <FaBars />
             </div>
@@ -135,14 +192,20 @@ function Home() {
               className="hostel-card"
               key={hostel.id}
               onClick={() =>
-                navigate("/hostel-details")
+                navigate(
+                  `/hostel-details/${hostel.id}`
+                )
               }
             >
 
               <div className="hostel-image">
 
                 <img
-                  src={hostel.image}
+                  src={
+                    hostel.images
+                      ? `http://localhost:8080${JSON.parse(hostel.images)[0]}`
+                      : "https://images.unsplash.com/photo-1555854877-bab0e564b8d5"
+                  }
                   alt={hostel.name}
                 />
 
@@ -163,7 +226,8 @@ function Home() {
                 </p>
 
                 <p className="rating">
-                  ⭐ {hostel.rating}
+                  Occupancy {" "}
+                  {hostel.occupancyPercentage}%
                 </p>
 
               </div>
@@ -180,38 +244,48 @@ function Home() {
 
           <div className="horizontal-row">
 
-            {horizontalHostels.map((hostel) => (
+            {horizontalHostels.map(
+              (hostel) => (
 
-              <div
-                className="hostel-card"
-                key={hostel.id}
-                onClick={() =>
-                  navigate("/hostel-details")
-                }
-              >
+                <div
+                  className="hostel-card"
+                  key={hostel.id}
+                  onClick={() =>
+                    navigate(
+                      `/hostel-details/${hostel.id}`
+                    )
+                  }
+                >
 
-                <div className="hostel-image">
+                  <div className="hostel-image">
 
-                  <img
-                    src={hostel.image}
-                    alt={hostel.name}
-                  />
+                    <img
+                      src={
+                        hostel.images
+                          ? `http://localhost:8080${JSON.parse(hostel.images)[0]}`
+                          : "https://images.unsplash.com/photo-1555854877-bab0e564b8d5"
+                      }
+                      alt={hostel.name}
+                    />
+
+                  </div>
+
+                  <div className="hostel-details">
+
+                    <p>
+                      {hostel.name}
+                    </p>
+
+                    <p className="price">
+                      ₹{hostel.price}
+                    </p>
+
+                  </div>
 
                 </div>
 
-                <div className="hostel-details">
-
-                  <p>{hostel.name}</p>
-
-                  <p className="price">
-                    ₹{hostel.price}
-                  </p>
-
-                </div>
-
-              </div>
-
-            ))}
+              )
+            )}
 
           </div>
 
@@ -220,6 +294,7 @@ function Home() {
       </div>
 
     </div>
+
   );
 }
 
