@@ -90,16 +90,24 @@ const getImage = (hostel) => {
             </div>
 
             {open && (
-              <div className="dropdown-menu">
-                <div className="dropdown-item">Profile</div>
-                <div
-                  className="dropdown-item"
-                  onClick={() => navigate("/add-hostel")}
-                >
-                  Add Hostel
-                </div>
-              </div>
-            )}
+  <div className="dropdown-menu">
+
+    <div
+      className="dropdown-item"
+      onClick={() => navigate("/profile")}
+    >
+      Profile
+    </div>
+
+    <div
+      className="dropdown-item"
+      onClick={() => navigate("/list-your-hostel")}
+    >
+      List Your Hostel
+    </div>
+
+  </div>
+)}
           </div>
         </div>
       </div>
