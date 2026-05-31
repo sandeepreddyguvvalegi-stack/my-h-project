@@ -1,94 +1,269 @@
 import "./HostelFinalReview.css";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { FaArrowLeft, FaCheckCircle } from "react-icons/fa";
-import API from "../api/hostelApi";
+import { FaArrowLeft } from "react-icons/fa";
 
 function HostelFinalReview() {
+
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(null);
-  const [success, setSuccess] = useState(false);
 
-  useEffect(() => {
-    const basic = JSON.parse(localStorage.getItem("hostelBasicDetails"));
-    const amenities = JSON.parse(localStorage.getItem("amenities"));
-    const food = JSON.parse(localStorage.getItem("foodTimetable"));
+  const owner =
+    JSON.parse(
+      localStorage.getItem("ownerData")
+    ) || {};
 
-    setData({ basic, amenities, food });
-  }, []);
+  const basic =
+    JSON.parse(
+      localStorage.getItem(
+        "hostelBasicDetails"
+      )
+    ) || {};
 
-  const handleSubmit = async () => {
-    setLoading(true);
+  const amenities =
+    JSON.parse(
+      localStorage.getItem(
+        "amenities"
+      )
+    ) || {};
 
-    try {
-      await API.post("/owner/submit-hostel", data);
+  const studyRoom =
+    JSON.parse(
+      localStorage.getItem(
+        "studyRoom"
+      )
+    ) || {};
 
-      setSuccess(true);
+  const structure =
+    JSON.parse(
+      localStorage.getItem(
+        "hostelStructure"
+      )
+    ) || {};
 
-      setTimeout(() => {
-        navigate("/owner-dashboard");
-      }, 2000);
+  const pricing =
+    JSON.parse(
+      localStorage.getItem(
+        "hostelPricing"
+      )
+    ) || {};
 
-    } catch (err) {
-      console.log(err);
-      alert("Submission Failed");
-    }
+  const submitHostel = () => {
 
-    setLoading(false);
+    alert(
+      "🎉 Hostel Submitted Successfully!"
+    );
+
+    navigate("/application-submitted");
   };
 
-  if (!data) return <h2>Loading...</h2>;
-
   return (
-    <div className="finalPage">
 
-      <div className="backBtn" onClick={() => navigate("/food-timetable")}>
+    <div className="reviewPage">
+
+      <div
+        className="backBtn"
+        onClick={() =>
+          navigate("/hostel-pricing")
+        }
+      >
         <FaArrowLeft />
       </div>
 
-      <div className="finalCard">
+      <div className="reviewContainer">
 
-        {!success ? (
-          <>
-            <h1>📋 Final Review</h1>
-            <p>Check all details before submitting your hostel</p>
+        <h1>
+          Final Review
+        </h1>
 
-            {/* BASIC */}
-            <div className="section">
-              <h3>🏠 Basic Details</h3>
-              <p>Name: {data.basic?.hostelName}</p>
-              <p>City: {data.basic?.city}</p>
-              <p>Address: {data.basic?.address}</p>
-            </div>
+        <p className="subtitle">
+          Review everything before submitting
+        </p>
 
-            {/* AMENITIES */}
-            <div className="section">
-              <h3>🏨 Amenities</h3>
-              <p>{JSON.stringify(data.amenities)}</p>
-            </div>
+        {/* OWNER */}
 
-            {/* FOOD */}
-            <div className="section">
-              <h3>🍽️ Food Plan</h3>
-              <p>Weekly food timetable added ✔</p>
-            </div>
+        <div className="reviewCard">
 
-            <button className="submitBtn" onClick={handleSubmit}>
-              Submit Hostel
-            </button>
-          </>
-        ) : (
-          <div className="successBox">
-            <FaCheckCircle size={60} color="green" />
-            <h1>Congratulations 🎉</h1>
-            <p>Your hostel is submitted for verification</p>
-            <p>Redirecting to dashboard...</p>
+          <h2>
+            Owner Information
+          </h2>
+
+          <p>
+            Name:
+            {" "}
+            {owner.name}
+          </p>
+
+          <p>
+            Email:
+            {" "}
+            {owner.email}
+          </p>
+
+          <p>
+            Phone:
+            {" "}
+            {owner.phone}
+          </p>
+
+        </div>
+
+        {/* BASIC */}
+
+        <div className="reviewCard">
+
+          <h2>
+            Hostel Details
+          </h2>
+
+          <p>
+            Name:
+            {" "}
+            {basic.hostelName}
+          </p>
+
+          <p>
+            State:
+            {" "}
+            {basic.state}
+          </p>
+
+          <p>
+            City:
+            {" "}
+            {basic.city}
+          </p>
+
+          <p>
+            Address:
+            {" "}
+            {basic.address}
+          </p>
+
+        </div>
+
+        {/* AMENITIES */}
+
+        <div className="reviewCard">
+
+          <h2>
+            Amenities
+          </h2>
+
+          <div className="tags">
+
+            {Object.keys(amenities)
+              .filter(
+                (key) =>
+                  amenities[key]
+              )
+              .map((item) => (
+
+                <span
+                  key={item}
+                  className="tag"
+                >
+                  {item}
+                </span>
+
+              ))}
+
           </div>
-        )}
+
+        </div>
+
+        {/* STUDY ROOM */}
+
+        <div className="reviewCard">
+
+          <h2>
+            Study Room
+          </h2>
+
+          <p>
+            Available:
+            {" "}
+            {studyRoom.hasStudyRoom
+              ? "Yes"
+              : "No"}
+          </p>
+
+        </div>
+
+        {/* STRUCTURE */}
+
+        <div className="reviewCard">
+
+          <h2>
+            Hostel Structure
+          </h2>
+
+          <p>
+            Floors:
+            {" "}
+            {structure.floors}
+          </p>
+
+          <p>
+            Rooms:
+            {" "}
+            {structure.totalRooms}
+          </p>
+
+          <p>
+            Beds:
+            {" "}
+            {structure.totalBeds}
+          </p>
+
+        </div>
+
+        {/* PRICING */}
+
+        <div className="reviewCard">
+
+          <h2>
+            Pricing
+          </h2>
+
+          <p>
+            Daily:
+            ₹{pricing.dailyPrice}
+          </p>
+
+          <p>
+            Monthly:
+            ₹{pricing.monthlyPrice}
+          </p>
+
+          <p>
+            Yearly:
+            ₹{pricing.yearlyPrice}
+          </p>
+
+          {pricing.hasDiscount && (
+
+            <p className="discount">
+              Discount:
+              {" "}
+              {pricing.discount}%
+            </p>
+
+          )}
+
+        </div>
+
+        {/* SUBMIT */}
+
+        <button
+          className="submitBtn"
+          onClick={submitHostel}
+        >
+          Submit Hostel
+        </button>
 
       </div>
+
     </div>
+
   );
 }
 

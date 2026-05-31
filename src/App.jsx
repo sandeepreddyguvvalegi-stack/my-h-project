@@ -20,6 +20,8 @@ import Amenities from "./pages/Amenities";
 import StudyRoomDetails from "./pages/StudyRoomDetails";
 import FoodTimetable from "./pages/FoodTimetable";
 import HostelFinalReview from "./pages/HostelFinalReview";
+import HostelPricing from "./pages/HostelPricing";
+import ApplicationSubmitted from "./pages/ApplicationSubmitted";
 
 
 
@@ -68,6 +70,14 @@ function App() {
   element={<FoodTimetable />}
 />
  <Route path="/hostel-final-review" element={<HostelFinalReview />} />
+ <Route
+  path="/hostel-pricing"
+  element={<HostelPricing />}
+/>
+<Route
+  path="/application-submitted"
+  element={<ApplicationSubmitted />}
+/>
 
 
         <Route

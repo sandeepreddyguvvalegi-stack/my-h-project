@@ -1,60 +1,93 @@
-.finalPage{
+.reviewPage{
   min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
   background:#f5f5f5;
+  padding:30px;
   font-family:Arial;
-  padding:20px;
-  position:relative;
+}
+
+.reviewContainer{
+  max-width:900px;
+  margin:auto;
+}
+
+.reviewContainer h1{
+  text-align:center;
+  margin-bottom:10px;
+}
+
+.subtitle{
+  text-align:center;
+  color:#777;
+  margin-bottom:30px;
 }
 
 .backBtn{
-  position:absolute;
-  top:20px;
-  left:20px;
-  width:45px;
-  height:45px;
-  background:white;
+  width:48px;
+  height:48px;
   border-radius:50%;
+  background:white;
   display:flex;
   align-items:center;
   justify-content:center;
   cursor:pointer;
-  box-shadow:0 6px 15px rgba(0,0,0,0.1);
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+  margin-bottom:20px;
 }
 
-.finalCard{
-  width:650px;
-  max-width:95%;
+.reviewCard{
   background:white;
-  padding:25px;
-  border-radius:18px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  border-radius:20px;
+  padding:22px;
+  margin-bottom:20px;
+  box-shadow:0 8px 25px rgba(0,0,0,.06);
 }
 
-.section{
-  background:#fafafa;
-  padding:12px;
-  border-radius:12px;
-  margin-top:15px;
-  border:1px solid #eee;
+.reviewCard h2{
+  margin-bottom:15px;
+  color:#ff385c;
+}
+
+.reviewCard p{
+  margin-bottom:10px;
+}
+
+.tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.tag{
+  background:#ffe7ec;
+  color:#ff385c;
+  padding:8px 14px;
+  border-radius:30px;
+  font-size:14px;
+  font-weight:bold;
+}
+
+.discount{
+  color:green;
+  font-weight:bold;
 }
 
 .submitBtn{
   width:100%;
-  margin-top:20px;
-  padding:14px;
+  padding:18px;
   border:none;
-  border-radius:14px;
-  background:linear-gradient(45deg,#ff385c,#ff7a00);
+  border-radius:16px;
+  background:linear-gradient(
+    45deg,
+    #ff385c,
+    #ff7a00
+  );
   color:white;
-  font-size:16px;
+  font-size:18px;
   font-weight:bold;
   cursor:pointer;
+  margin-top:20px;
 }
 
-.successBox{
-  text-align:center;
-  padding:30px;
+.submitBtn:hover{
+  transform:translateY(-2px);
 }

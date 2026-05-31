@@ -6,7 +6,15 @@ import { FaArrowLeft } from "react-icons/fa";
 function FoodTimetable() {
   const navigate = useNavigate();
 
-  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const days = [
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat",
+    "Sun"
+  ];
 
   const defaultMenu = {
     breakfast: "",
@@ -23,7 +31,7 @@ function FoodTimetable() {
     }, {})
   );
 
-  // 🔥 PRESET MENUS
+  // PRESET MENUS
   const presets = {
     southIndian: {
       breakfast: "Idli, Dosa, Sambar",
@@ -32,6 +40,7 @@ function FoodTimetable() {
       dinner: "Chapati + Curry",
       special: "Sunday Biryani"
     },
+
     northIndian: {
       breakfast: "Paratha + Curd",
       lunch: "Roti + Paneer + Rice",
@@ -39,6 +48,7 @@ function FoodTimetable() {
       dinner: "Chapati + Dal",
       special: "Paneer Biryani"
     },
+
     light: {
       breakfast: "Poha / Upma",
       lunch: "Rice + Dal",
@@ -51,7 +61,9 @@ function FoodTimetable() {
   const applyPreset = (day, type) => {
     setTimetable({
       ...timetable,
-      [day]: presets[type]
+      [day]: {
+        ...presets[type]
+      }
     });
   };
 
@@ -67,83 +79,143 @@ function FoodTimetable() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    localStorage.setItem("foodTimetable", JSON.stringify(timetable));
-    navigate("/amenities");
+
+    localStorage.setItem(
+      "foodTimetable",
+      JSON.stringify(timetable)
+    );
+
+    navigate("/add-hostel");
   };
 
   return (
     <div className="foodPage">
 
-      <div className="backBtn" onClick={() => navigate("/amenities")}>
+      {/* BACK BUTTON */}
+      <div
+        className="backBtn"
+        onClick={() => navigate("/study-room")}
+      >
         <FaArrowLeft />
       </div>
 
       <div className="foodContainer">
 
-        <h1 className="title">🍽️ Weekly Food Planner</h1>
+        <h1 className="title">
+          🍽️ Weekly Food Planner
+        </h1>
+
         <p className="subtitle">
-          Set menu manually OR use presets for fast setup
+          Set menu manually or use quick presets
+          to create your hostel food schedule.
         </p>
 
         {days.map((day) => (
-          <div className="dayCard" key={day}>
-
+          <div
+            className="dayCard"
+            key={day}
+          >
             <div className="dayHeader">
+
               <h2>{day}</h2>
 
-              {/* 🔥 QUICK PRESET BUTTONS */}
               <div className="presetBtns">
-                <button onClick={() => applyPreset(day, "southIndian")}>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    applyPreset(day, "southIndian")
+                  }
+                >
                   South
                 </button>
-                <button onClick={() => applyPreset(day, "northIndian")}>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    applyPreset(day, "northIndian")
+                  }
+                >
                   North
                 </button>
-                <button onClick={() => applyPreset(day, "light")}>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    applyPreset(day, "light")
+                  }
+                >
                   Light
                 </button>
+
               </div>
+
             </div>
 
             <div className="grid">
 
               <input
+                type="text"
                 placeholder="Breakfast"
                 value={timetable[day].breakfast}
                 onChange={(e) =>
-                  handleChange(day, "breakfast", e.target.value)
+                  handleChange(
+                    day,
+                    "breakfast",
+                    e.target.value
+                  )
                 }
               />
 
               <input
+                type="text"
                 placeholder="Lunch"
                 value={timetable[day].lunch}
                 onChange={(e) =>
-                  handleChange(day, "lunch", e.target.value)
+                  handleChange(
+                    day,
+                    "lunch",
+                    e.target.value
+                  )
                 }
               />
 
               <input
+                type="text"
                 placeholder="Snacks / Tea"
                 value={timetable[day].snacks}
                 onChange={(e) =>
-                  handleChange(day, "snacks", e.target.value)
+                  handleChange(
+                    day,
+                    "snacks",
+                    e.target.value
+                  )
                 }
               />
 
               <input
+                type="text"
                 placeholder="Dinner"
                 value={timetable[day].dinner}
                 onChange={(e) =>
-                  handleChange(day, "dinner", e.target.value)
+                  handleChange(
+                    day,
+                    "dinner",
+                    e.target.value
+                  )
                 }
               />
 
               <input
+                type="text"
                 placeholder="Special Food"
                 value={timetable[day].special}
                 onChange={(e) =>
-                  handleChange(day, "special", e.target.value)
+                  handleChange(
+                    day,
+                    "special",
+                    e.target.value
+                  )
                 }
               />
 
@@ -151,11 +223,15 @@ function FoodTimetable() {
           </div>
         ))}
 
-        <button className="btn" onClick={handleSubmit}>
+        <button
+          className="btn"
+          onClick={handleSubmit}
+        >
           Save & Continue →
         </button>
 
       </div>
+
     </div>
   );
 }
