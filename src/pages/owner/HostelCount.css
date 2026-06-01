@@ -1,0 +1,192 @@
+.hostelCountPage{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at top left,#ffe5ec 0%,transparent 35%),
+    radial-gradient(circle at bottom right,#dbeafe 0%,transparent 35%),
+    #f8fafc;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:40px 20px;
+}
+
+.backBtn{
+  position:fixed;
+  top:25px;
+  left:25px;
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  cursor:pointer;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  transition:.3s;
+}
+
+.backBtn:hover{
+  transform:translateY(-3px);
+}
+
+.hostelWrapper{
+  width:100%;
+  max-width:1200px;
+  display:grid;
+  grid-template-columns:420px 1fr;
+  gap:40px;
+}
+
+.leftSection{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.logo{
+  font-size:42px;
+  font-weight:800;
+  color:#ff385c;
+  margin-bottom:20px;
+}
+
+.leftSection h2{
+  font-size:42px;
+  line-height:1.2;
+  color:#111827;
+  margin-bottom:15px;
+}
+
+.leftSection p{
+  color:#6b7280;
+  line-height:1.8;
+  margin-bottom:30px;
+}
+
+.featureBox{
+  background:white;
+  padding:18px;
+  border-radius:16px;
+  margin-bottom:15px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:600;
+  box-shadow:0 8px 25px rgba(0,0,0,.05);
+}
+
+.featureBox svg{
+  color:#ff385c;
+}
+
+.hostelCard{
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(20px);
+  border-radius:30px;
+  padding:40px;
+  box-shadow:0 20px 60px rgba(0,0,0,.08);
+}
+
+.section{
+  margin-bottom:35px;
+}
+
+.section h3{
+  margin-bottom:15px;
+  color:#111827;
+  font-size:18px;
+}
+
+.cardGrid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:15px;
+}
+
+.selectCard{
+  padding:18px;
+  border:2px solid #e5e7eb;
+  border-radius:18px;
+  background:white;
+  text-align:center;
+  cursor:pointer;
+  font-weight:600;
+  transition:.3s;
+}
+
+.selectCard:hover{
+  transform:translateY(-3px);
+  border-color:#ff385c;
+}
+
+.active{
+  border:2px solid #ff385c;
+  background:#fff5f7;
+  color:#ff385c;
+}
+
+.activeBtn{
+  width:100%;
+  height:58px;
+  border:none;
+  border-radius:18px;
+  background:linear-gradient(
+    135deg,
+    #ff385c,
+    #ff6b81
+  );
+  color:white;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.activeBtn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 30px rgba(255,56,92,.3);
+}
+
+.disabledBtn{
+  width:100%;
+  height:58px;
+  border:none;
+  border-radius:18px;
+  background:#d1d5db;
+  color:white;
+  font-size:16px;
+  font-weight:700;
+  cursor:not-allowed;
+}
+
+@media(max-width:1000px){
+
+  .hostelWrapper{
+    grid-template-columns:1fr;
+  }
+
+  .leftSection{
+    text-align:center;
+  }
+}
+
+@media(max-width:600px){
+
+  .hostelCard{
+    padding:25px;
+  }
+
+  .leftSection h2{
+    font-size:30px;
+  }
+
+  .logo{
+    font-size:34px;
+  }
+
+  .cardGrid{
+    grid-template-columns:1fr;
+  }
+}

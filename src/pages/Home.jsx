@@ -1,33 +1,20 @@
 import "./Home.css";
 import { FaSearch, FaBars } from "react-icons/fa";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../api/hostelApi";
+import hostelsData from "../data/hostels";
 
 function Home() {
+
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [visibleCount, setVisibleCount] = useState(12);
-  const [hostels, setHostels] = useState([]);
+
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchHostels();
-  }, []);
-
-  const fetchHostels = async () => {
-    try {
-      const response = await API.get("/hostels");
-      setHostels(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const filteredHostels = hostels.filter(
-    (h) =>
-      (h.name || "").toLowerCase().includes(search.toLowerCase()) ||
-      (h.location || "").toLowerCase().includes(search.toLowerCase())
+  const filteredHostels = hostelsData.filter((h) =>
+    h.name.toLowerCase().includes(search.toLowerCase()) ||
+    h.location.toLowerCase().includes(search.toLowerCase())
   );
 
   const gridHostels = filteredHostels.slice(0, Math.min(visibleCount, 36));
@@ -42,34 +29,19 @@ function Home() {
     }
   };
 
-  // ✅ FIXED IMAGE PARSE
-const getImage = (hostel) => {
-  try {
-    const images = JSON.parse(hostel.images || "[]");
-
-    if (images.length > 0) {
-      const img = images[0];
-
-      // already full URL (Cloudinary or external)
-      if (img.startsWith("http")) return img;
-
-      // backend /uploads path
-      return `http://localhost:8080${img}`;
-    }
-
-    return "https://images.unsplash.com/photo-1555854877-bab0e564b8d5";
-  } catch (e) {
-    return "https://images.unsplash.com/photo-1555854877-bab0e564b8d5";
-  }
-};
-
   return (
     <div className="home-container">
+
+      {/* HERO */}
       <div className="hero-section">
+
         <h1 className="app-title">Homfsy</h1>
 
         <div className="top-row">
+
+          {/* SEARCH */}
           <div className="search-box">
+
             <input
               type="text"
               placeholder="Search hostel, city or near me"
@@ -79,51 +51,69 @@ const getImage = (hostel) => {
                 setVisibleCount(12);
               }}
             />
+
             <button>
               <FaSearch />
             </button>
+
           </div>
 
+          {/* MENU */}
           <div className="menu-wrapper">
-            <div className="menu-icon" onClick={() => setOpen(!open)}>
+
+            <div
+              className="menu-icon"
+              onClick={() => setOpen(!open)}
+            >
               <FaBars />
             </div>
 
             {open && (
-  <div className="dropdown-menu">
+              <div className="dropdown-menu">
 
-    <div
-      className="dropdown-item"
-      onClick={() => navigate("/profile")}
-    >
-      Profile
-    </div>
+                <div className="dropdown-item">
+                  Profile
+                </div>
 
-    <div
-      className="dropdown-item"
-      onClick={() => navigate("/list-your-hostel")}
-    >
-      List Your Hostel
-    </div>
+                {/* ✅ FIXED TEXT + NAVIGATION */}
+                <div
+                  className="dropdown-item"
+                  onClick={() => {
+                    setOpen(false);
+                    navigate("/list-your-hostel");
+                  }}
+                >
+                  List Your Hostel
+                </div>
 
-  </div>
-)}
+              </div>
+            )}
+
           </div>
+
         </div>
+
       </div>
 
-      <div className="hostel-section" onScroll={handleScroll}>
+      {/* HOSTELS */}
+      <div
+        className="hostel-section"
+        onScroll={handleScroll}
+      >
+
+        {/* GRID */}
         <div className="hostel-row">
+
           {gridHostels.map((hostel) => (
             <div
               className="hostel-card"
               key={hostel.id}
-              onClick={() =>
-                navigate(`/hostel-details/${hostel.id}`)
-              }
+              onClick={() => navigate("/hostel-details")}
             >
+
               <div className="hostel-image">
-                <img src={getImage(hostel)} alt={hostel.name} />
+                <img src={hostel.image} alt={hostel.name} />
+
                 <div className="hostel-name-overlay">
                   {hostel.name}
                 </div>
@@ -132,37 +122,42 @@ const getImage = (hostel) => {
               <div className="hostel-details">
                 <p className="location">{hostel.location}</p>
                 <p className="price">₹{hostel.price}</p>
-                <p className="rating">
-                  Occupancy {hostel.occupancyPercentage || 0}%
-                </p>
+                <p className="rating">⭐ {hostel.rating}</p>
               </div>
+
             </div>
           ))}
+
         </div>
 
+        {/* HORIZONTAL */}
         {horizontalHostels.length > 0 && (
           <div className="horizontal-row">
+
             {horizontalHostels.map((hostel) => (
               <div
                 className="hostel-card"
                 key={hostel.id}
-                onClick={() =>
-                  navigate(`/hostel-details/${hostel.id}`)
-                }
+                onClick={() => navigate("/hostel-details")}
               >
+
                 <div className="hostel-image">
-                  <img src={getImage(hostel)} alt={hostel.name} />
+                  <img src={hostel.image} alt={hostel.name} />
                 </div>
 
                 <div className="hostel-details">
                   <p>{hostel.name}</p>
                   <p className="price">₹{hostel.price}</p>
                 </div>
+
               </div>
             ))}
+
           </div>
         )}
+
       </div>
+
     </div>
   );
 }
