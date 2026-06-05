@@ -5,24 +5,31 @@ import { useNavigate } from "react-router-dom";
 import hostelsData from "../data/hostels";
 
 function Home() {
-
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [visibleCount, setVisibleCount] = useState(12);
 
   const navigate = useNavigate();
 
-  const filteredHostels = hostelsData.filter((h) =>
-    h.name.toLowerCase().includes(search.toLowerCase()) ||
-    h.location.toLowerCase().includes(search.toLowerCase())
+  const filteredHostels = hostelsData.filter(
+    (h) =>
+      h.name.toLowerCase().includes(search.toLowerCase()) ||
+      h.location.toLowerCase().includes(search.toLowerCase())
   );
 
-  const gridHostels = filteredHostels.slice(0, Math.min(visibleCount, 36));
-  const horizontalHostels = filteredHostels.slice(36);
+  const gridHostels = filteredHostels.slice(
+    0,
+    Math.min(visibleCount, 36)
+  );
+
+  const horizontalHostels =
+    filteredHostels.slice(36);
 
   const handleScroll = (e) => {
     const bottom =
-      e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+      e.target.scrollHeight -
+        e.target.scrollTop ===
+      e.target.clientHeight;
 
     if (bottom && visibleCount < 36) {
       setVisibleCount((prev) => prev + 12);
@@ -35,7 +42,9 @@ function Home() {
       {/* HERO */}
       <div className="hero-section">
 
-        <h1 className="app-title">Homfsy</h1>
+        <h1 className="app-title">
+          Homfsy
+        </h1>
 
         <div className="top-row">
 
@@ -63,7 +72,9 @@ function Home() {
 
             <div
               className="menu-icon"
-              onClick={() => setOpen(!open)}
+              onClick={() =>
+                setOpen(!open)
+              }
             >
               <FaBars />
             </div>
@@ -71,16 +82,22 @@ function Home() {
             {open && (
               <div className="dropdown-menu">
 
-                <div className="dropdown-item">
-                  Profile
-                </div>
-
-                {/* ✅ FIXED TEXT + NAVIGATION */}
                 <div
                   className="dropdown-item"
                   onClick={() => {
                     setOpen(false);
-                    navigate("/list-your-hostel");
+                  }}
+                >
+                  Profile
+                </div>
+
+                <div
+                  className="dropdown-item"
+                  onClick={() => {
+                    setOpen(false);
+                    navigate(
+                      "/list-your-hostel"
+                    );
                   }}
                 >
                   List Your Hostel
@@ -108,21 +125,38 @@ function Home() {
             <div
               className="hostel-card"
               key={hostel.id}
-              onClick={() => navigate("/hostel-details")}
+              onClick={() =>
+                navigate("/hostel-details")
+              }
             >
 
               <div className="hostel-image">
-                <img src={hostel.image} alt={hostel.name} />
+
+                <img
+                  src={hostel.image}
+                  alt={hostel.name}
+                />
 
                 <div className="hostel-name-overlay">
                   {hostel.name}
                 </div>
+
               </div>
 
               <div className="hostel-details">
-                <p className="location">{hostel.location}</p>
-                <p className="price">₹{hostel.price}</p>
-                <p className="rating">⭐ {hostel.rating}</p>
+
+                <p className="location">
+                  {hostel.location}
+                </p>
+
+                <p className="price">
+                  ₹{hostel.price}
+                </p>
+
+                <p className="rating">
+                  ⭐ {hostel.rating}
+                </p>
+
               </div>
 
             </div>
@@ -131,27 +165,46 @@ function Home() {
         </div>
 
         {/* HORIZONTAL */}
-        {horizontalHostels.length > 0 && (
+        {horizontalHostels.length >
+          0 && (
           <div className="horizontal-row">
 
-            {horizontalHostels.map((hostel) => (
-              <div
-                className="hostel-card"
-                key={hostel.id}
-                onClick={() => navigate("/hostel-details")}
-              >
+            {horizontalHostels.map(
+              (hostel) => (
+                <div
+                  className="hostel-card"
+                  key={hostel.id}
+                  onClick={() =>
+                    navigate(
+                      "/hostel-details"
+                    )
+                  }
+                >
 
-                <div className="hostel-image">
-                  <img src={hostel.image} alt={hostel.name} />
+                  <div className="hostel-image">
+
+                    <img
+                      src={hostel.image}
+                      alt={hostel.name}
+                    />
+
+                  </div>
+
+                  <div className="hostel-details">
+
+                    <p>
+                      {hostel.name}
+                    </p>
+
+                    <p className="price">
+                      ₹{hostel.price}
+                    </p>
+
+                  </div>
+
                 </div>
-
-                <div className="hostel-details">
-                  <p>{hostel.name}</p>
-                  <p className="price">₹{hostel.price}</p>
-                </div>
-
-              </div>
-            ))}
+              )
+            )}
 
           </div>
         )}

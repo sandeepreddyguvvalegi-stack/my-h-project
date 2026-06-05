@@ -1,111 +1,98 @@
 import "./OwnerRegister.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+
 import {
   FaArrowLeft,
   FaEye,
   FaEyeSlash,
-  FaCheckCircle,
-  FaShieldAlt
+  FaUserTie,
+  FaBuilding,
+  FaHotel
 } from "react-icons/fa";
 
 function OwnerRegister() {
   const navigate = useNavigate();
 
-  const [showPassword, setShowPassword] =
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [ownerType, setOwnerType] = useState("");
+  const [agree, setAgree] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
     useState(false);
 
-  const [showConfirmPassword,
-    setShowConfirmPassword] =
-    useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    countryCode: "+91",
-    phone: "",
-    businessType: "",
-    referralCode: "",
-    password: "",
-    confirmPassword: ""
-  });
-
-  const [termsAccepted,
-    setTermsAccepted] =
-    useState(false);
-
-  const [privacyAccepted,
-    setPrivacyAccepted] =
-    useState(false);
-
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]:
-        e.target.value
-    });
-  };
+  /* ================= VALIDATIONS ================= */
 
   const nameValid =
-    /^[A-Za-z ]{3,50}$/.test(
-      form.name.trim()
-    );
+    /^[A-Za-z ]{3,}$/.test(fullName);
 
   const emailValid =
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
-      form.email
-    );
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const phoneValid =
-    /^[6-9]\d{9}$/.test(
-      form.phone
-    );
+    phone.length >= 10;
+
+  const hasUpper =
+    /[A-Z]/.test(password);
+
+  const hasLower =
+    /[a-z]/.test(password);
+
+  const hasNumber =
+    /\d/.test(password);
+
+  const hasSpecial =
+    /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+  const hasLength =
+    password.length >= 8;
 
   const passwordValid =
-    /^(?=.*[A-Z])(?=.*\d).{8,}$/.test(
-      form.password
-    );
+    hasUpper &&
+    hasLower &&
+    hasNumber &&
+    hasSpecial &&
+    hasLength;
 
   const passwordsMatch =
-    form.password &&
-    form.password ===
-      form.confirmPassword;
+    password === confirmPassword &&
+    confirmPassword.length > 0;
 
-  const getPasswordStrength =
-    () => {
-      let score = 0;
+  /* ================= PASSWORD STRENGTH ================= */
 
-      if (
-        form.password.length >= 8
-      )
-        score++;
+  const strengthScore =
+    [
+      hasUpper,
+      hasLower,
+      hasNumber,
+      hasSpecial,
+      hasLength
+    ].filter(Boolean).length;
 
-      if (
-        /[A-Z]/.test(
-          form.password
-        )
-      )
-        score++;
+  const getStrengthText = () => {
+    if (strengthScore <= 2) return "Weak";
+    if (strengthScore <= 4) return "Medium";
+    return "Strong";
+  };
 
-      if (
-        /\d/.test(
-          form.password
-        )
-      )
-        score++;
+  const getStrengthClass = () => {
+    if (strengthScore <= 2) return "weak";
+    if (strengthScore <= 4) return "medium";
+    return "strong";
+  };
 
-      if (
-        /[!@#$%^&*]/.test(
-          form.password
-        )
-      )
-        score++;
-
-      return score;
-    };
-
-  const strength =
-    getPasswordStrength();
+  /* ================= FORM VALID ================= */
 
   const formValid =
     nameValid &&
@@ -113,473 +100,341 @@ function OwnerRegister() {
     phoneValid &&
     passwordValid &&
     passwordsMatch &&
-    termsAccepted &&
-    privacyAccepted &&
-    form.businessType;
+    ownerType &&
+    agree;
 
-  const handleSubmit = (
-    e
-  ) => {
+  /* ================= SUBMIT ================= */
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!formValid) return;
 
-    navigate(
-      "/owner-verification"
-    );
+    setLoading(true);
+
+    setTimeout(() => {
+      navigate("/owner-verification");
+    }, 1200);
   };
 
   return (
     <div className="ownerPage">
 
-      <div
-        className="backBtn"
-        onClick={() =>
-          navigate(
-            "/list-your-hostel"
-          )
-        }
+      {/* BACK BUTTON */}
+      <button
+        className="backButton"
+        onClick={() => navigate(-1)}
       >
         <FaArrowLeft />
-      </div>
+      </button>
 
-      <div className="ownerWrapper">
+      {/* CARD */}
+      <div className="ownerCard">
 
-        <div className="leftSection">
-
-          <h1 className="logo">
-            Homfsy
-          </h1>
-
-          <h2>
-            Start Hosting With
-            Confidence
-          </h2>
+        <div className="ownerHeader">
+          <h1>Owner Registration</h1>
 
           <p>
-            Join Homfsy and
-            connect with
-            thousands of
-            students searching
-            for quality hostels.
+            Start listing your hostel on Homfsy
+            and reach more students.
           </p>
-
-          <div className="featureBox">
-            <FaCheckCircle />
-            Reach More Students
-          </div>
-
-          <div className="featureBox">
-            <FaCheckCircle />
-            Secure Verification
-          </div>
-
-          <div className="featureBox">
-            <FaCheckCircle />
-            Easy Hostel
-            Management
-          </div>
-
         </div>
 
-        <div className="ownerCard">
+        <form onSubmit={handleSubmit}>
 
-          <div className="cardHeader">
+          {/* FULL NAME */}
+          <div className="field">
+            <label>Full Name</label>
 
-            <h2>
-              Create Owner
-              Account
-            </h2>
+            <input
+              type="text"
+              placeholder="Enter your full name"
+              value={fullName}
+              onChange={(e) =>
+                setFullName(e.target.value)
+              }
+            />
 
-            <p>
-              Step 1 of Owner
-              Onboarding
-            </p>
-
+            {!nameValid &&
+              fullName.length > 0 && (
+                <span className="error">
+                  Minimum 3 characters.
+                  Letters only.
+                </span>
+              )}
           </div>
 
-          <form
-            onSubmit={
-              handleSubmit
-            }
-          >
+          {/* EMAIL */}
+          <div className="field">
+            <label>Email Address</label>
 
-            <div className="inputGroup">
+            <input
+              type="email"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) =>
+                setEmail(e.target.value)
+              }
+            />
 
-              <label>
-                Full Name
-              </label>
+            {!emailValid &&
+              email.length > 0 && (
+                <span className="error">
+                  Enter a valid email.
+                </span>
+              )}
+          </div>
+
+          {/* PHONE */}
+          <div className="field">
+            <label>Mobile Number</label>
+
+            <PhoneInput
+              country={"in"}
+              preferredCountries={[
+                "in",
+                "us",
+                "gb",
+                "ae"
+              ]}
+              enableSearch
+              value={phone}
+              onChange={(value) =>
+                setPhone(value)
+              }
+            />
+
+            {!phoneValid &&
+              phone.length > 0 && (
+                <span className="error">
+                  Enter valid mobile number.
+                </span>
+              )}
+          </div>
+
+          {/* PASSWORD */}
+          <div className="field">
+            <label>Password</label>
+
+            <div className="passwordWrapper">
 
               <input
-                type="text"
-                name="name"
-                value={form.name}
-                onChange={
-                  handleChange
+                type={
+                  showPassword
+                    ? "text"
+                    : "password"
                 }
-                placeholder="Enter your full name"
+                placeholder="Create password"
+                value={password}
+                onChange={(e) =>
+                  setPassword(
+                    e.target.value
+                  )
+                }
               />
 
-              {form.name &&
-                !nameValid && (
-                  <span className="error">
-                    Enter valid
-                    full name
-                  </span>
-                )}
-
-            </div>
-
-            <div className="inputGroup">
-
-              <label>
-                Email Address
-              </label>
-
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={
-                  handleChange
-                }
-                placeholder="Enter your email"
-              />
-
-              {form.email &&
-                !emailValid && (
-                  <span className="error">
-                    Invalid email
-                    address
-                  </span>
-                )}
-
-            </div>
-
-            <div className="inputGroup">
-
-              <label>
-                Mobile Number
-              </label>
-
-              <div className="phoneGroup">
-
-                <select
-                  name="countryCode"
-                  value={
-                    form.countryCode
-                  }
-                  onChange={
-                    handleChange
-                  }
-                >
-                  <option value="+91">
-                    🇮🇳 +91
-                  </option>
-
-                  <option value="+1">
-                    🇺🇸 +1
-                  </option>
-
-                  <option value="+44">
-                    🇬🇧 +44
-                  </option>
-
-                  <option value="+971">
-                    🇦🇪 +971
-                  </option>
-
-                </select>
-
-                <input
-                  type="tel"
-                  name="phone"
-                  value={
-                    form.phone
-                  }
-                  onChange={
-                    handleChange
-                  }
-                  placeholder="Phone Number"
-                />
-
-              </div>
-
-              {form.phone &&
-                !phoneValid && (
-                  <span className="error">
-                    Enter valid
-                    mobile number
-                  </span>
-                )}
-
-            </div>
-
-            <div className="inputGroup">
-
-              <label>
-                Business Type
-              </label>
-
-              <select
-                name="businessType"
-                value={
-                  form.businessType
-                }
-                onChange={
-                  handleChange
+              <span
+                className="eyeIcon"
+                onClick={() =>
+                  setShowPassword(
+                    !showPassword
+                  )
                 }
               >
-                <option value="">
-                  Select Type
-                </option>
-
-                <option>
-                  Individual Owner
-                </option>
-
-                <option>
-                  Hostel Operator
-                </option>
-
-                <option>
-                  Company
-                </option>
-
-              </select>
+                {showPassword
+                  ? <FaEyeSlash />
+                  : <FaEye />}
+              </span>
 
             </div>
 
-            <div className="inputGroup">
+            {/* STRENGTH */}
+            {password.length > 0 && (
+              <>
+                <div className="strengthBar">
+                  <div
+                    className={`strengthFill ${getStrengthClass()}`}
+                  />
+                </div>
 
-              <label>
-                Referral Code
-                (Optional)
-              </label>
-
-              <input
-                type="text"
-                name="referralCode"
-                value={
-                  form.referralCode
-                }
-                onChange={
-                  handleChange
-                }
-                placeholder="Enter referral code"
-              />
-
-            </div>
-
-            <div className="inputGroup">
-
-              <label>
-                Password
-              </label>
-
-              <div className="passwordBox">
-
-                <input
-                  type={
-                    showPassword
-                      ? "text"
-                      : "password"
-                  }
-                  name="password"
-                  value={
-                    form.password
-                  }
-                  onChange={
-                    handleChange
-                  }
-                  placeholder="Create password"
-                />
-
-                <span
-                  onClick={() =>
-                    setShowPassword(
-                      !showPassword
-                    )
-                  }
+                <p
+                  className={`strengthText ${getStrengthClass()}`}
                 >
-                  {showPassword
-                    ? <FaEyeSlash />
-                    : <FaEye />}
-                </span>
+                  {getStrengthText()}
+                </p>
+              </>
+            )}
 
-              </div>
+            <div className="rules">
 
-            </div>
-
-            <div className="strengthCard">
-
-              <div className="strengthBar">
-
-                <div
-                  className={`fill strength${strength}`}
-                />
-
-              </div>
-
-              <p>
-                Password
-                Strength
+              <p className={hasLength ? "ok" : ""}>
+                ✓ Minimum 8 characters
               </p>
 
-              <ul>
+              <p className={hasUpper ? "ok" : ""}>
+                ✓ One uppercase letter
+              </p>
 
-                <li>
-                  {form.password
-                    .length >= 8
-                    ? "✅"
-                    : "⬜"}{" "}
-                  8+
-                  Characters
-                </li>
+              <p className={hasLower ? "ok" : ""}>
+                ✓ One lowercase letter
+              </p>
 
-                <li>
-                  {/[A-Z]/.test(
-                    form.password
-                  )
-                    ? "✅"
-                    : "⬜"}{" "}
-                  Uppercase
-                  Letter
-                </li>
+              <p className={hasNumber ? "ok" : ""}>
+                ✓ One number
+              </p>
 
-                <li>
-                  {/\d/.test(
-                    form.password
-                  )
-                    ? "✅"
-                    : "⬜"}{" "}
-                  Number
-                </li>
-
-              </ul>
+              <p className={hasSpecial ? "ok" : ""}>
+                ✓ One special character
+              </p>
 
             </div>
 
-            <div className="inputGroup">
+          </div>
 
-              <label>
-                Confirm
-                Password
-              </label>
+          {/* CONFIRM PASSWORD */}
+          <div className="field">
+            <label>
+              Confirm Password
+            </label>
 
-              <div className="passwordBox">
+            <div className="passwordWrapper">
 
-                <input
-                  type={
-                    showConfirmPassword
-                      ? "text"
-                      : "password"
-                  }
-                  name="confirmPassword"
-                  value={
-                    form.confirmPassword
-                  }
-                  onChange={
-                    handleChange
-                  }
-                  placeholder="Confirm password"
-                />
+              <input
+                type={
+                  showConfirmPassword
+                    ? "text"
+                    : "password"
+                }
+                placeholder="Confirm password"
+                value={confirmPassword}
+                onChange={(e) =>
+                  setConfirmPassword(
+                    e.target.value
+                  )
+                }
+              />
 
-                <span
-                  onClick={() =>
-                    setShowConfirmPassword(
-                      !showConfirmPassword
-                    )
-                  }
-                >
-                  {showConfirmPassword
-                    ? <FaEyeSlash />
-                    : <FaEye />}
+              <span
+                className="eyeIcon"
+                onClick={() =>
+                  setShowConfirmPassword(
+                    !showConfirmPassword
+                  )
+                }
+              >
+                {showConfirmPassword
+                  ? <FaEyeSlash />
+                  : <FaEye />}
+              </span>
+
+            </div>
+
+            {confirmPassword.length >
+              0 &&
+              !passwordsMatch && (
+                <span className="error">
+                  Passwords do not match.
                 </span>
+              )}
+          </div>
 
+          {/* OWNER TYPE */}
+          <div className="field">
+            <label>
+              Select Owner Type
+            </label>
+
+            <div className="ownerTypes">
+
+              <div
+                className={`ownerTypeCard ${
+                  ownerType ===
+                  "individual"
+                    ? "active"
+                    : ""
+                }`}
+                onClick={() =>
+                  setOwnerType(
+                    "individual"
+                  )
+                }
+              >
+                <FaUserTie />
+                <span>
+                  Individual Owner
+                </span>
               </div>
 
-              {form.confirmPassword &&
-                !passwordsMatch && (
-                  <span className="error">
-                    Passwords do
-                    not match
-                  </span>
-                )}
-
-            </div>
-
-            <div className="securityCard">
-
-              <FaShieldAlt />
-
-              <span>
-                Your information
-                is encrypted and
-                securely stored.
-              </span>
-
-            </div>
-
-            <div className="checkboxRow">
-
-              <input
-                type="checkbox"
-                checked={
-                  termsAccepted
-                }
-                onChange={() =>
-                  setTermsAccepted(
-                    !termsAccepted
+              <div
+                className={`ownerTypeCard ${
+                  ownerType ===
+                  "manager"
+                    ? "active"
+                    : ""
+                }`}
+                onClick={() =>
+                  setOwnerType(
+                    "manager"
                   )
                 }
-              />
+              >
+                <FaBuilding />
+                <span>
+                  Property Manager
+                </span>
+              </div>
 
-              <span>
-                I agree to Terms
-                of Service
-              </span>
+              <div
+                className={`ownerTypeCard ${
+                  ownerType ===
+                  "chain"
+                    ? "active"
+                    : ""
+                }`}
+                onClick={() =>
+                  setOwnerType("chain")
+                }
+              >
+                <FaHotel />
+                <span>
+                  Hostel Chain
+                </span>
+              </div>
 
             </div>
+          </div>
 
-            <div className="checkboxRow">
+          {/* TERMS */}
+          <div className="checkboxRow">
 
-              <input
-                type="checkbox"
-                checked={
-                  privacyAccepted
-                }
-                onChange={() =>
-                  setPrivacyAccepted(
-                    !privacyAccepted
-                  )
-                }
-              />
-
-              <span>
-                I agree to
-                Privacy Policy
-              </span>
-
-            </div>
-
-            <button
-              type="submit"
-              disabled={
-                !formValid
+            <input
+              type="checkbox"
+              checked={agree}
+              onChange={() =>
+                setAgree(!agree)
               }
-              className={
-                formValid
-                  ? "activeBtn"
-                  : "disabledBtn"
-              }
-            >
-              Continue →
-            </button>
+            />
 
-          </form>
+            <span>
+              I agree to the Terms &
+              Conditions and Privacy
+              Policy.
+            </span>
 
-        </div>
+          </div>
+
+          {/* SUBMIT */}
+          <button
+            type="submit"
+            disabled={!formValid}
+            className="continueBtn"
+          >
+            {loading
+              ? "Please wait..."
+              : "Continue Verification"}
+          </button>
+
+        </form>
 
       </div>
 
