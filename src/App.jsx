@@ -7,6 +7,7 @@ import OwnerVerification from "./pages/Owner/OwnerVerification";
 import HostelCount from "./pages/Owner/HostelCount";
 import HostelBasicDetails from "./pages/Owner/HostelBasicDetails";
 import Amenities from "./pages/Owner/Amenities";
+import StudyRoom from "./pages/Owner/StudyRoom";
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
 
         {/* ✅ AMENITIES ROUTE */}
         <Route path="/amenities" element={<Amenities />} />
+        <Route path="/study-room" element={<StudyRoom />} />
+       
 
       </Routes>
 
