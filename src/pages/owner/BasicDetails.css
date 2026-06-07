@@ -1,0 +1,210 @@
+/* ================= SECTION TITLE ================= */
+
+.sectionTitle{
+  font-size:22px;
+  font-weight:700;
+  color:#222;
+  margin:35px 0 20px;
+}
+
+/* ================= TWO COLUMN ================= */
+
+.twoColumn{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+/* ================= MAP CARD ================= */
+
+.mapCard{
+  background:white;
+  border:2px dashed #ffd1da;
+  border-radius:20px;
+  padding:25px;
+  margin-bottom:25px;
+}
+
+/* ================= MAP PLACEHOLDER ================= */
+
+.mapPlaceholder{
+  background:#fff5f7;
+  border-radius:16px;
+  padding:30px;
+  text-align:center;
+}
+
+.mapPlaceholder h3{
+  color:#ff385c;
+  margin-bottom:10px;
+}
+
+.mapPlaceholder p{
+  color:#666;
+}
+
+/* ================= LOCATION BUTTON ================= */
+
+.locationBtn{
+  margin-top:18px;
+  border:none;
+  background:#ff385c;
+  color:white;
+  padding:12px 22px;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:600;
+  transition:.25s;
+}
+
+.locationBtn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(255,56,92,.25);
+}
+
+/* ================= DESCRIPTION ================= */
+
+.descriptionBox{
+  width:100%;
+  min-height:140px;
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  padding:16px;
+  resize:none;
+  outline:none;
+  font-size:15px;
+  font-family:inherit;
+  transition:.25s;
+}
+
+.descriptionBox:focus{
+  border-color:#ff385c;
+}
+
+/* ================= TAG GRID ================= */
+
+.tagGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin-bottom:20px;
+}
+
+/* ================= TAG CARD ================= */
+
+.tagCard{
+  background:white;
+  border:2px solid #ececec;
+  border-radius:14px;
+  padding:15px;
+  text-align:center;
+  font-weight:600;
+  cursor:pointer;
+  transition:.25s;
+}
+
+.tagCard:hover{
+  border-color:#ff385c;
+  background:#fff1f4;
+  transform:translateY(-2px);
+}
+
+/* ================= FEATURE GRID ================= */
+
+.featureGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin-bottom:20px;
+}
+
+/* ================= FEATURE CARD ================= */
+
+.featureCard{
+  background:white;
+  border:2px solid #ececec;
+  border-radius:14px;
+  padding:15px;
+  text-align:center;
+  font-weight:600;
+  cursor:pointer;
+  transition:.25s;
+}
+
+.featureCard:hover{
+  border-color:#ff385c;
+  background:#fff1f4;
+  transform:translateY(-2px);
+}
+
+/* ================= TOGGLE BOX ================= */
+
+.toggleBox{
+  background:#fafafa;
+  border:1px solid #ececec;
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:25px;
+}
+
+/* ================= TOGGLE ITEM ================= */
+
+.toggleItem{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:10px 0;
+  cursor:pointer;
+  font-weight:500;
+}
+
+.toggleItem input{
+  width:18px;
+  height:18px;
+  accent-color:#ff385c;
+}
+
+/* ================= CONTINUE BUTTON ================= */
+
+.continueBtn{
+  width:100%;
+  border:none;
+  border-radius:14px;
+  background:#ff385c;
+  color:white;
+  padding:16px;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.25s;
+}
+
+.continueBtn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 20px rgba(255,56,92,.25);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:768px){
+
+  .twoColumn{
+    grid-template-columns:1fr;
+  }
+
+  .tagGrid{
+    grid-template-columns:1fr;
+  }
+
+  .featureGrid{
+    grid-template-columns:1fr;
+  }
+
+  .sectionTitle{
+    font-size:20px;
+  }
+
+  .mapPlaceholder{
+    padding:20px;
+  }
+}

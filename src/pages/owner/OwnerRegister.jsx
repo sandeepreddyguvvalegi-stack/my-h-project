@@ -1,38 +1,84 @@
 import "./OwnerRegister.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
 
 import {
   FaArrowLeft,
   FaEye,
   FaEyeSlash,
   FaUserTie,
-  FaBuilding,
-  FaHotel
+  FaBuilding
 } from "react-icons/fa";
 
 function OwnerRegister() {
+
   const navigate = useNavigate();
 
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [fullName, setFullName] =
+    useState("");
 
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [email, setEmail] =
+    useState("");
 
-  const [ownerType, setOwnerType] = useState("");
-  const [agree, setAgree] = useState(false);
+  const [phone, setPhone] =
+    useState("");
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] =
+  const [countryCode, setCountryCode] =
+    useState("+91");
+
+  const [password, setPassword] =
+    useState("");
+
+  const [confirmPassword,
+    setConfirmPassword] =
+    useState("");
+
+  const [ownerType, setOwnerType] =
+    useState("");
+
+  const [agree, setAgree] =
     useState(false);
 
-  const [loading, setLoading] = useState(false);
+  const [showPassword,
+    setShowPassword] =
+    useState(false);
 
-  /* ================= VALIDATIONS ================= */
+  const [showConfirmPassword,
+    setShowConfirmPassword] =
+    useState(false);
+
+  const [loading, setLoading] =
+    useState(false);
+
+  /* EMAIL OTP */
+
+  const [emailOtpSent,
+    setEmailOtpSent] =
+    useState(false);
+
+  const [emailOtp,
+    setEmailOtp] =
+    useState("");
+
+  const [emailVerified,
+    setEmailVerified] =
+    useState(false);
+
+  /* PHONE OTP */
+
+  const [phoneOtpSent,
+    setPhoneOtpSent] =
+    useState(false);
+
+  const [phoneOtp,
+    setPhoneOtp] =
+    useState("");
+
+  const [phoneVerified,
+    setPhoneVerified] =
+    useState(false);
+
+  /* VALIDATIONS */
 
   const nameValid =
     /^[A-Za-z ]{3,}$/.test(fullName);
@@ -41,7 +87,7 @@ function OwnerRegister() {
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const phoneValid =
-    phone.length >= 10;
+    /^[0-9]{10}$/.test(phone);
 
   const hasUpper =
     /[A-Z]/.test(password);
@@ -69,9 +115,18 @@ function OwnerRegister() {
     password === confirmPassword &&
     confirmPassword.length > 0;
 
-  /* ================= PASSWORD STRENGTH ================= */
+  const formValid =
+    nameValid &&
+    emailValid &&
+    emailVerified &&
+    phoneValid &&
+    phoneVerified &&
+    passwordValid &&
+    passwordsMatch &&
+    ownerType &&
+    agree;
 
-  const strengthScore =
+  const strength =
     [
       hasUpper,
       hasLower,
@@ -81,31 +136,83 @@ function OwnerRegister() {
     ].filter(Boolean).length;
 
   const getStrengthText = () => {
-    if (strengthScore <= 2) return "Weak";
-    if (strengthScore <= 4) return "Medium";
+    if (strength <= 2) return "Weak";
+    if (strength <= 4) return "Medium";
     return "Strong";
   };
 
   const getStrengthClass = () => {
-    if (strengthScore <= 2) return "weak";
-    if (strengthScore <= 4) return "medium";
+    if (strength <= 2) return "weak";
+    if (strength <= 4) return "medium";
     return "strong";
   };
 
-  /* ================= FORM VALID ================= */
+  const sendEmailOtp = () => {
 
-  const formValid =
-    nameValid &&
-    emailValid &&
-    phoneValid &&
-    passwordValid &&
-    passwordsMatch &&
-    ownerType &&
-    agree;
+    if (!emailValid) {
+      alert("Enter valid email");
+      return;
+    }
 
-  /* ================= SUBMIT ================= */
+    setEmailOtpSent(true);
+
+    alert(
+      "Demo Email OTP: 123456"
+    );
+  };
+
+  const verifyEmailOtp = () => {
+
+    if (emailOtp === "123456") {
+
+      setEmailVerified(true);
+
+      alert(
+        "Email Verified Successfully"
+      );
+
+    } else {
+
+      alert("Invalid Email OTP");
+
+    }
+  };
+
+  const sendPhoneOtp = () => {
+
+    if (!phoneValid) {
+      alert(
+        "Enter valid mobile number"
+      );
+      return;
+    }
+
+    setPhoneOtpSent(true);
+
+    alert(
+      "Demo Mobile OTP: 123456"
+    );
+  };
+
+  const verifyPhoneOtp = () => {
+
+    if (phoneOtp === "123456") {
+
+      setPhoneVerified(true);
+
+      alert(
+        "Mobile Verified Successfully"
+      );
+
+    } else {
+
+      alert("Invalid Mobile OTP");
+
+    }
+  };
 
   const handleSubmit = (e) => {
+
     e.preventDefault();
 
     if (!formValid) return;
@@ -113,14 +220,21 @@ function OwnerRegister() {
     setLoading(true);
 
     setTimeout(() => {
+
+      alert(
+        "Registration Successful"
+      );
+
       navigate("/owner-verification");
-    }, 1200);
+
+    }, 1000);
+
   };
 
   return (
+
     <div className="ownerPage">
 
-      {/* BACK BUTTON */}
       <button
         className="backButton"
         onClick={() => navigate(-1)}
@@ -128,95 +242,278 @@ function OwnerRegister() {
         <FaArrowLeft />
       </button>
 
-      {/* CARD */}
       <div className="ownerCard">
 
         <div className="ownerHeader">
-          <h1>Owner Registration</h1>
+
+          <h1>
+            Owner Registration
+          </h1>
 
           <p>
-            Start listing your hostel on Homfsy
-            and reach more students.
+            Start listing your hostel
+            and reach thousands of
+            students.
           </p>
+
         </div>
 
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={handleSubmit}
+        >
 
-          {/* FULL NAME */}
           <div className="field">
-            <label>Full Name</label>
+
+            <label>
+              Full Name
+            </label>
 
             <input
               type="text"
-              placeholder="Enter your full name"
+              placeholder="Enter full name"
               value={fullName}
               onChange={(e) =>
-                setFullName(e.target.value)
+                setFullName(
+                  e.target.value
+                )
               }
             />
 
             {!nameValid &&
               fullName.length > 0 && (
                 <span className="error">
-                  Minimum 3 characters.
-                  Letters only.
+                  Minimum 3 letters required
                 </span>
               )}
           </div>
+                    {/* EMAIL */}
 
-          {/* EMAIL */}
           <div className="field">
+
             <label>Email Address</label>
 
-            <input
-              type="email"
-              placeholder="Enter email"
-              value={email}
-              onChange={(e) =>
-                setEmail(e.target.value)
-              }
-            />
+            <div className="verifyRow">
+
+              <input
+                type="email"
+                placeholder="Enter email"
+                value={email}
+                onChange={(e) => {
+
+                  setEmail(
+                    e.target.value
+                  );
+
+                  setEmailVerified(
+                    false
+                  );
+
+                }}
+              />
+
+              <button
+                type="button"
+                className="otpBtn"
+                disabled={!emailValid}
+                onClick={sendEmailOtp}
+              >
+                {
+                  emailVerified
+                    ? "Verified"
+                    : "Send OTP"
+                }
+              </button>
+
+            </div>
 
             {!emailValid &&
               email.length > 0 && (
                 <span className="error">
-                  Enter a valid email.
+                  Invalid Email
                 </span>
               )}
+
+            {emailOtpSent &&
+              !emailVerified && (
+
+              <div
+                className="otpSection"
+              >
+
+                <input
+                  type="text"
+                  placeholder="Enter Email OTP"
+                  value={emailOtp}
+                  onChange={(e) =>
+                    setEmailOtp(
+                      e.target.value
+                    )
+                  }
+                />
+
+                <button
+                  type="button"
+                  className="verifyBtn"
+                  onClick={
+                    verifyEmailOtp
+                  }
+                >
+                  Verify
+                </button>
+
+              </div>
+
+            )}
+
+            {emailVerified && (
+
+              <p
+                className="verifiedText"
+              >
+                ✓ Email Verified
+              </p>
+
+            )}
+
           </div>
 
-          {/* PHONE */}
-          <div className="field">
-            <label>Mobile Number</label>
+          {/* MOBILE */}
 
-            <PhoneInput
-              country={"in"}
-              preferredCountries={[
-                "in",
-                "us",
-                "gb",
-                "ae"
-              ]}
-              enableSearch
-              value={phone}
-              onChange={(value) =>
-                setPhone(value)
-              }
-            />
+          <div className="field">
+
+            <label>
+              Mobile Number
+            </label>
+
+            <div
+              className="phoneWrapper"
+            >
+
+              <select
+                className="countryCode"
+                value={countryCode}
+                onChange={(e) =>
+                  setCountryCode(
+                    e.target.value
+                  )
+                }
+              >
+
+                <option value="+91">
+                  🇮🇳 +91
+                </option>
+
+                <option value="+1">
+                  🇺🇸 +1
+                </option>
+
+                <option value="+44">
+                  🇬🇧 +44
+                </option>
+
+                <option value="+971">
+                  🇦🇪 +971
+                </option>
+
+              </select>
+
+              <input
+                type="tel"
+                placeholder="Enter mobile number"
+                value={phone}
+                onChange={(e) => {
+
+                  setPhone(
+                    e.target.value
+                  );
+
+                  setPhoneVerified(
+                    false
+                  );
+
+                }}
+              />
+
+            </div>
 
             {!phoneValid &&
               phone.length > 0 && (
-                <span className="error">
-                  Enter valid mobile number.
-                </span>
-              )}
+
+              <span className="error">
+                Enter valid
+                10 digit number
+              </span>
+
+            )}
+
+            <button
+              type="button"
+              className="otpBtn mobileBtn"
+              disabled={!phoneValid}
+              onClick={sendPhoneOtp}
+            >
+              {
+                phoneVerified
+                  ? "Verified"
+                  : "Send OTP"
+              }
+            </button>
+
+            {phoneOtpSent &&
+              !phoneVerified && (
+
+              <div
+                className="otpSection"
+              >
+
+                <input
+                  type="text"
+                  placeholder="Enter Mobile OTP"
+                  value={phoneOtp}
+                  onChange={(e) =>
+                    setPhoneOtp(
+                      e.target.value
+                    )
+                  }
+                />
+
+                <button
+                  type="button"
+                  className="verifyBtn"
+                  onClick={
+                    verifyPhoneOtp
+                  }
+                >
+                  Verify
+                </button>
+
+              </div>
+
+            )}
+
+            {phoneVerified && (
+
+              <p
+                className="verifiedText"
+              >
+                ✓ Mobile Verified
+              </p>
+
+            )}
+
           </div>
 
           {/* PASSWORD */}
-          <div className="field">
-            <label>Password</label>
 
-            <div className="passwordWrapper">
+          <div className="field">
+
+            <label>
+              Password
+            </label>
+
+            <div
+              className="passwordWrapper"
+            >
 
               <input
                 type={
@@ -241,20 +538,26 @@ function OwnerRegister() {
                   )
                 }
               >
+
                 {showPassword
                   ? <FaEyeSlash />
                   : <FaEye />}
+
               </span>
 
             </div>
 
-            {/* STRENGTH */}
             {password.length > 0 && (
+
               <>
-                <div className="strengthBar">
+                <div
+                  className="strengthBar"
+                >
+
                   <div
                     className={`strengthFill ${getStrengthClass()}`}
                   />
+
                 </div>
 
                 <p
@@ -263,41 +566,21 @@ function OwnerRegister() {
                   {getStrengthText()}
                 </p>
               </>
+
             )}
 
-            <div className="rules">
-
-              <p className={hasLength ? "ok" : ""}>
-                ✓ Minimum 8 characters
-              </p>
-
-              <p className={hasUpper ? "ok" : ""}>
-                ✓ One uppercase letter
-              </p>
-
-              <p className={hasLower ? "ok" : ""}>
-                ✓ One lowercase letter
-              </p>
-
-              <p className={hasNumber ? "ok" : ""}>
-                ✓ One number
-              </p>
-
-              <p className={hasSpecial ? "ok" : ""}>
-                ✓ One special character
-              </p>
-
-            </div>
-
           </div>
+                    {/* CONFIRM PASSWORD */}
 
-          {/* CONFIRM PASSWORD */}
           <div className="field">
+
             <label>
               Confirm Password
             </label>
 
-            <div className="passwordWrapper">
+            <div
+              className="passwordWrapper"
+            >
 
               <input
                 type={
@@ -329,22 +612,26 @@ function OwnerRegister() {
 
             </div>
 
-            {confirmPassword.length >
-              0 &&
-              !passwordsMatch && (
+            {!passwordsMatch &&
+              confirmPassword.length > 0 && (
                 <span className="error">
-                  Passwords do not match.
+                  Passwords do not match
                 </span>
               )}
+
           </div>
 
           {/* OWNER TYPE */}
+
           <div className="field">
+
             <label>
-              Select Owner Type
+              Owner Type
             </label>
 
-            <div className="ownerTypes">
+            <div
+              className="ownerTypes"
+            >
 
               <div
                 className={`ownerTypeCard ${
@@ -392,20 +679,26 @@ function OwnerRegister() {
                     : ""
                 }`}
                 onClick={() =>
-                  setOwnerType("chain")
+                  setOwnerType(
+                    "chain"
+                  )
                 }
               >
-                <FaHotel />
+                <FaBuilding />
                 <span>
                   Hostel Chain
                 </span>
               </div>
 
             </div>
+
           </div>
 
           {/* TERMS */}
-          <div className="checkboxRow">
+
+          <div
+            className="checkboxRow"
+          >
 
             <input
               type="checkbox"
@@ -416,14 +709,15 @@ function OwnerRegister() {
             />
 
             <span>
-              I agree to the Terms &
+              I agree to Terms &
               Conditions and Privacy
-              Policy.
+              Policy
             </span>
 
           </div>
 
           {/* SUBMIT */}
+
           <button
             type="submit"
             disabled={!formValid}
@@ -431,7 +725,7 @@ function OwnerRegister() {
           >
             {loading
               ? "Please wait..."
-              : "Continue Verification"}
+              : "Continue"}
           </button>
 
         </form>
@@ -439,6 +733,7 @@ function OwnerRegister() {
       </div>
 
     </div>
+
   );
 }
 

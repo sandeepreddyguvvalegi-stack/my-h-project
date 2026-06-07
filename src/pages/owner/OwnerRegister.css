@@ -349,3 +349,116 @@
     left:15px;
   }
 }
+/* OTP SECTION */
+
+.verifyRow{
+  display:flex;
+  gap:10px;
+}
+
+.verifyRow input{
+  flex:1;
+}
+
+.otpBtn{
+  border:none;
+  background:#ff385c;
+  color:white;
+  border-radius:12px;
+  padding:0 18px;
+  cursor:pointer;
+  font-weight:600;
+  min-width:120px;
+}
+
+.otpBtn:hover{
+  opacity:.9;
+}
+
+.mobileBtn{
+  width:100%;
+  height:50px;
+  margin-top:10px;
+}
+
+.otpSection{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
+
+.otpSection input{
+  flex:1;
+}
+
+.verifyBtn{
+  border:none;
+  background:#16a34a;
+  color:white;
+  border-radius:12px;
+  padding:0 18px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.verifyBtn:hover{
+  opacity:.9;
+}
+
+.verifiedText{
+  margin-top:8px;
+  color:#16a34a;
+  font-size:14px;
+  font-weight:700;
+}
+
+/* PHONE */
+
+.phoneWrapper{
+  display:flex;
+  gap:10px;
+}
+
+.countryCode{
+  width:120px;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  padding:0 10px;
+  background:white;
+  outline:none;
+}
+
+.phoneWrapper input{
+  flex:1;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+  .verifyRow{
+    flex-direction:column;
+  }
+
+  .otpBtn{
+    width:100%;
+    height:50px;
+  }
+
+  .otpSection{
+    flex-direction:column;
+  }
+
+  .verifyBtn{
+    height:50px;
+  }
+
+  .phoneWrapper{
+    flex-direction:column;
+  }
+
+  .countryCode{
+    width:100%;
+    height:54px;
+  }
+}

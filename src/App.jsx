@@ -3,6 +3,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import ListYourHostel from "./pages/Owner/ListYourHostel";
 import OwnerRegister from "./pages/Owner/OwnerRegister";
+import OwnerVerification from "./pages/Owner/OwnerVerification";
+import HostelCount from "./pages/Owner/HostelCount";
+import BasicDetails
+from "./pages/Owner/BasicDetails";
+
 
 function App() {
   return (
@@ -25,6 +30,22 @@ function App() {
         <Route
           path="/owner-register"
           element={<OwnerRegister />}
+        />
+
+        {/* Owner Verification */}
+        <Route
+          path="/owner-verification"
+          element={<OwnerVerification />}
+        />
+
+        {/* Hostel Count */}
+        <Route
+          path="/hostel-count"
+          element={<HostelCount />}
+        />
+         <Route
+          path="/basic-details"
+          element={<BasicDetails />}
         />
 
       </Routes>
