@@ -1,173 +1,200 @@
-/* ================= SECTION TITLE ================= */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+.basicPage{
+  min-height:100vh;
+  background:#f7f7f7;
+  padding:40px 20px;
+  display:flex;
+  justify-content:center;
+}
+
+.basicCard{
+  width:100%;
+  max-width:900px;
+  background:white;
+  border-radius:24px;
+  padding:40px;
+  box-shadow:
+  0 10px 30px rgba(0,0,0,.08);
+}
+
+.backBtn{
+  position:fixed;
+  top:20px;
+  left:20px;
+  width:45px;
+  height:45px;
+  border:none;
+  border-radius:50%;
+  background:white;
+  color:#ff385c;
+  cursor:pointer;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+
+.basicHeader{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+.basicHeader h1{
+  font-size:34px;
+  color:#222;
+}
+
+.basicHeader p{
+  color:#666;
+  margin-top:10px;
+}
+
+.progressBox{
+  margin-bottom:30px;
+}
+
+.progressTop{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:8px;
+}
+
+.progressBar{
+  height:10px;
+  background:#eee;
+  border-radius:999px;
+}
+
+.progressFill{
+  width:40%;
+  height:100%;
+  background:#ff385c;
+  border-radius:999px;
+}
+
+.field{
+  margin-bottom:20px;
+}
+
+.field label{
+  display:block;
+  margin-bottom:8px;
+  font-weight:600;
+}
+
+.field input{
+  width:100%;
+  padding:14px;
+  border:1px solid #ddd;
+  border-radius:14px;
+  outline:none;
+}
+
+.field input:focus{
+  border-color:#ff385c;
+}
 
 .sectionTitle{
   font-size:22px;
   font-weight:700;
-  color:#222;
-  margin:35px 0 20px;
+  margin:30px 0 20px;
 }
 
-/* ================= TWO COLUMN ================= */
-
-.twoColumn{
+.cardGrid,
+.categoryGrid{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:16px;
+  grid-template-columns:
+  repeat(3,1fr);
+  gap:15px;
 }
 
-/* ================= MAP CARD ================= */
-
-.mapCard{
-  background:white;
-  border:2px dashed #ffd1da;
-  border-radius:20px;
-  padding:25px;
-  margin-bottom:25px;
-}
-
-/* ================= MAP PLACEHOLDER ================= */
-
-.mapPlaceholder{
-  background:#fff5f7;
-  border-radius:16px;
-  padding:30px;
+.optionCard,
+.categoryCard{
+  border:2px solid #ececec;
+  border-radius:18px;
+  padding:20px;
   text-align:center;
+  cursor:pointer;
+  transition:.25s;
 }
 
-.mapPlaceholder h3{
+.optionCard:hover,
+.categoryCard:hover{
+  border-color:#ff385c;
+}
+
+.optionCard.active,
+.categoryCard.active{
+  border-color:#ff385c;
+  background:#fff1f4;
+}
+
+.cardIcon{
+  font-size:28px;
   color:#ff385c;
   margin-bottom:10px;
 }
 
-.mapPlaceholder p{
-  color:#666;
+.twoColumn{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
 }
-
-/* ================= LOCATION BUTTON ================= */
-
-.locationBtn{
-  margin-top:18px;
-  border:none;
-  background:#ff385c;
-  color:white;
-  padding:12px 22px;
-  border-radius:12px;
-  cursor:pointer;
-  font-weight:600;
-  transition:.25s;
-}
-
-.locationBtn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 8px 20px rgba(255,56,92,.25);
-}
-
-/* ================= DESCRIPTION ================= */
 
 .descriptionBox{
   width:100%;
-  min-height:140px;
-  border:1px solid #e5e7eb;
+  min-height:130px;
+  border:1px solid #ddd;
   border-radius:16px;
-  padding:16px;
-  resize:none;
-  outline:none;
-  font-size:15px;
-  font-family:inherit;
-  transition:.25s;
-}
-
-.descriptionBox:focus{
-  border-color:#ff385c;
-}
-
-/* ================= TAG GRID ================= */
-
-.tagGrid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px;
-  margin-bottom:20px;
-}
-
-/* ================= TAG CARD ================= */
-
-.tagCard{
-  background:white;
-  border:2px solid #ececec;
-  border-radius:14px;
   padding:15px;
-  text-align:center;
-  font-weight:600;
-  cursor:pointer;
-  transition:.25s;
+  resize:none;
 }
 
-.tagCard:hover{
-  border-color:#ff385c;
-  background:#fff1f4;
-  transform:translateY(-2px);
-}
-
-/* ================= FEATURE GRID ================= */
-
+.tagGrid,
 .featureGrid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px;
-  margin-bottom:20px;
+  grid-template-columns:
+  repeat(3,1fr);
+  gap:15px;
 }
 
-/* ================= FEATURE CARD ================= */
-
+.tagCard,
 .featureCard{
-  background:white;
   border:2px solid #ececec;
-  border-radius:14px;
-  padding:15px;
+  border-radius:16px;
+  padding:16px;
   text-align:center;
-  font-weight:600;
   cursor:pointer;
   transition:.25s;
 }
 
+.tagCard:hover,
 .featureCard:hover{
   border-color:#ff385c;
+}
+
+.tagCard.active,
+.featureCard.active{
+  border-color:#ff385c;
   background:#fff1f4;
-  transform:translateY(-2px);
 }
 
-/* ================= TOGGLE BOX ================= */
-
-.toggleBox{
-  background:#fafafa;
-  border:1px solid #ececec;
-  border-radius:18px;
-  padding:20px;
-  margin-bottom:25px;
-}
-
-/* ================= TOGGLE ITEM ================= */
-
-.toggleItem{
+.featureCard{
   display:flex;
+  flex-direction:column;
   align-items:center;
-  gap:12px;
-  padding:10px 0;
-  cursor:pointer;
-  font-weight:500;
+  gap:10px;
 }
 
-.toggleItem input{
-  width:18px;
-  height:18px;
-  accent-color:#ff385c;
+.featureCard svg{
+  color:#ff385c;
 }
-
-/* ================= CONTINUE BUTTON ================= */
 
 .continueBtn{
   width:100%;
+  margin-top:30px;
   border:none;
   border-radius:14px;
   background:#ff385c;
@@ -176,35 +203,27 @@
   font-size:16px;
   font-weight:700;
   cursor:pointer;
-  transition:.25s;
 }
 
 .continueBtn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 10px 20px rgba(255,56,92,.25);
+  box-shadow:
+  0 10px 20px rgba(255,56,92,.25);
 }
-
-/* ================= RESPONSIVE ================= */
 
 @media(max-width:768px){
 
-  .twoColumn{
-    grid-template-columns:1fr;
+  .basicCard{
+    padding:25px;
   }
 
-  .tagGrid{
-    grid-template-columns:1fr;
-  }
-
+  .cardGrid,
+  .categoryGrid,
+  .tagGrid,
   .featureGrid{
     grid-template-columns:1fr;
   }
 
-  .sectionTitle{
-    font-size:20px;
-  }
-
-  .mapPlaceholder{
-    padding:20px;
+  .twoColumn{
+    grid-template-columns:1fr;
   }
 }

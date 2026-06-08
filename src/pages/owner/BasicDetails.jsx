@@ -1,17 +1,17 @@
 import "./BasicDetails.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import {
   FaArrowLeft,
   FaMale,
   FaFemale,
   FaUsers,
-  FaBuilding
+  FaShieldAlt,
+  FaUserGraduate,
+  FaBriefcase
 } from "react-icons/fa";
 
 function BasicDetails() {
-
   const navigate = useNavigate();
 
   const [hostelName, setHostelName] =
@@ -24,36 +24,101 @@ function BasicDetails() {
     setHostelCategory] =
     useState("");
 
+  const [suitableFor,
+    setSuitableFor] = useState([]);
+
+  const [safetyFeatures,
+    setSafetyFeatures] = useState([]);
+
   const hostelTypes = [
     {
       id: "boys",
-      label: "Boys Hostel",
+      title: "Boys Hostel",
       icon: <FaMale />
     },
     {
       id: "girls",
-      label: "Girls Hostel",
+      title: "Girls Hostel",
       icon: <FaFemale />
     },
     {
       id: "unisex",
-      label: "Unisex Hostel",
+      title: "Unisex Hostel",
       icon: <FaUsers />
     }
   ];
 
   const categories = [
-    "PG Hostel",
-    "Student Hostel",
-    "Working Professionals Hostel",
-    "PG + Hostel"
+    {
+      id: "pg",
+      title: "PG Hostel"
+    },
+    {
+      id: "student",
+      title: "Student Hostel"
+    },
+    {
+      id: "working",
+      title:
+        "Working Professional"
+    },
+    {
+      id: "mixed",
+      title:
+        "Students + Working"
+    }
   ];
 
+  const suitableOptions = [
+    "Students",
+    "Working Professionals",
+    "Interns",
+    "Job Seekers"
+  ];
+
+  const safetyOptions = [
+    "CCTV",
+    "Security Guard",
+    "Fire Safety",
+    "Biometric Entry",
+    "Women Warden",
+    "Emergency Exit"
+  ];
+
+  const toggleSuitable = (item) => {
+    if (suitableFor.includes(item)) {
+      setSuitableFor(
+        suitableFor.filter(
+          (x) => x !== item
+        )
+      );
+    } else {
+      setSuitableFor([
+        ...suitableFor,
+        item
+      ]);
+    }
+  };
+
+  const toggleSafety = (item) => {
+    if (
+      safetyFeatures.includes(item)
+    ) {
+      setSafetyFeatures(
+        safetyFeatures.filter(
+          (x) => x !== item
+        )
+      );
+    } else {
+      setSafetyFeatures([
+        ...safetyFeatures,
+        item
+      ]);
+    }
+  };
+
   return (
-
     <div className="basicPage">
-
-      {/* BACK BUTTON */}
 
       <button
         className="backBtn"
@@ -64,8 +129,6 @@ function BasicDetails() {
 
       <div className="basicCard">
 
-        {/* HEADER */}
-
         <div className="basicHeader">
 
           <h1>
@@ -73,18 +136,15 @@ function BasicDetails() {
           </h1>
 
           <p>
-            Add essential information
-            students will see first.
+            Tell students about
+            your hostel.
           </p>
 
         </div>
 
-        {/* PROGRESS */}
-
         <div className="progressBox">
 
           <div className="progressTop">
-
             <span>
               Step 4 of 10
             </span>
@@ -92,51 +152,23 @@ function BasicDetails() {
             <span>
               40%
             </span>
-
           </div>
 
           <div className="progressBar">
-
-            <div
-              className="progressFill"
-            />
-
+            <div className="progressFill" />
           </div>
 
         </div>
-
-        {/* PREVIEW CARD */}
-
-        <div className="previewCard">
-
-          <FaBuilding />
-
-          <div>
-
-            <h3>
-              Hostel #1
-            </h3>
-
-            <p>
-              Add the basic details
-              of your hostel.
-            </p>
-
-          </div>
-
-        </div>
-
-        {/* HOSTEL NAME */}
 
         <div className="field">
 
           <label>
-            Hostel Name *
+            Hostel Name
           </label>
 
           <input
             type="text"
-            placeholder="Ex: Sunrise Boys PG"
+            placeholder="Sunrise Boys PG"
             value={hostelName}
             onChange={(e) =>
               setHostelName(
@@ -149,103 +181,82 @@ function BasicDetails() {
 
         {/* HOSTEL TYPE */}
 
-        <div className="field">
+        <div className="sectionTitle">
+          Hostel Type
+        </div>
 
-          <label>
-            Hostel Type
-          </label>
+        <div className="cardGrid">
 
-          <div className="cardGrid">
+          {hostelTypes.map(
+            (item) => (
 
-            {hostelTypes.map(
-              (item) => (
+              <div
+                key={item.id}
+                className={`optionCard ${
+                  hostelType ===
+                  item.id
+                    ? "active"
+                    : ""
+                }`}
+                onClick={() =>
+                  setHostelType(
+                    item.id
+                  )
+                }
+              >
 
-                <div
-                  key={item.id}
-                  className={`optionCard ${
-                    hostelType === item.id
-                      ? "active"
-                      : ""
-                  }`}
-                  onClick={() =>
-                    setHostelType(
-                      item.id
-                    )
-                  }
-                >
-
-                  <div className="cardIcon">
-                    {item.icon}
-                  </div>
-
-                  <span>
-                    {item.label}
-                  </span>
-
+                <div className="cardIcon">
+                  {item.icon}
                 </div>
 
-              )
-            )}
+                <h4>
+                  {item.title}
+                </h4>
 
-          </div>
+              </div>
+
+            )
+          )}
 
         </div>
 
-        {/* HOSTEL CATEGORY */}
+        {/* CATEGORY */}
 
-        <div className="field">
+        <div className="sectionTitle">
+          Hostel Category
+        </div>
 
-          <label>
-            Hostel Category
-          </label>
+        <div className="categoryGrid">
 
-          <div className="categoryGrid">
+          {categories.map(
+            (item) => (
 
-            {categories.map(
-              (item) => (
+              <div
+                key={item.id}
+                className={`categoryCard ${
+                  hostelCategory ===
+                  item.id
+                    ? "active"
+                    : ""
+                }`}
+                onClick={() =>
+                  setHostelCategory(
+                    item.id
+                  )
+                }
+              >
+                {item.title}
+              </div>
 
-                <div
-                  key={item}
-                  className={`categoryCard ${
-                    hostelCategory === item
-                      ? "active"
-                      : ""
-                  }`}
-                  onClick={() =>
-                    setHostelCategory(
-                      item
-                    )
-                  }
-                >
-                  {item}
-                </div>
-
-              )
-            )}
-
-          </div>
+            )
+          )}
 
         </div>
-                {/* ADDRESS SECTION */}
+
+        {/* LOCATION */}
 
         <div className="sectionTitle">
           Location Details
-        </div>
-
-        <div className="field">
-
-          <label>
-            Country
-          </label>
-
-          <select>
-
-            <option>
-              India
-            </option>
-
-          </select>
-
         </div>
 
         <div className="twoColumn">
@@ -283,7 +294,7 @@ function BasicDetails() {
           <div className="field">
 
             <label>
-              Area / Locality
+              Area
             </label>
 
             <input
@@ -296,12 +307,12 @@ function BasicDetails() {
           <div className="field">
 
             <label>
-              Landmark
+              Pincode
             </label>
 
             <input
               type="text"
-              placeholder="Near CMR College"
+              placeholder="500100"
             />
 
           </div>
@@ -311,100 +322,28 @@ function BasicDetails() {
         <div className="field">
 
           <label>
-            Pincode
+            Landmark
           </label>
 
           <input
             type="text"
-            placeholder="500100"
+            placeholder="Near Metro, College, Bus Stop"
           />
 
         </div>
 
-        {/* MAP LOCATION */}
-
-        <div className="sectionTitle">
-          Hostel Location
-        </div>
-
-        <div className="mapCard">
-
-          <div className="mapPlaceholder">
-
-            <h3>
-              📍 Pin Your Hostel Location
-            </h3>
-
-            <p>
-              Google Maps integration
-              will be added later.
-            </p>
-
-          </div>
-
-          <button
-            type="button"
-            className="locationBtn"
-          >
-            Use Current Location
-          </button>
-
-        </div>
-                {/* DESCRIPTION */}
+        {/* DESCRIPTION */}
 
         <div className="sectionTitle">
           Hostel Description
         </div>
 
-        <div className="field">
+        <textarea
+          className="descriptionBox"
+          placeholder="Describe your hostel..."
+        />
 
-          <label>
-            Tell students about your hostel
-          </label>
-
-          <textarea
-            className="descriptionBox"
-            rows="5"
-            placeholder="Example: Premium PG with WiFi, food, study room, laundry and 24/7 security."
-          />
-
-        </div>
-
-        {/* NEARBY COLLEGES */}
-
-        <div className="sectionTitle">
-          Nearby Colleges
-        </div>
-
-        <div className="tagGrid">
-
-          <div className="tagCard">
-            CMRCET
-          </div>
-
-          <div className="tagCard">
-            Malla Reddy
-          </div>
-
-          <div className="tagCard">
-            VNR VJIET
-          </div>
-
-          <div className="tagCard">
-            JNTUH
-          </div>
-
-          <div className="tagCard">
-            CMRIT
-          </div>
-
-          <div className="tagCard">
-            MGIT
-          </div>
-
-        </div>
-
-        {/* SUITABLE FOR */}
+        {/* SUITABLE */}
 
         <div className="sectionTitle">
           Suitable For
@@ -412,25 +351,33 @@ function BasicDetails() {
 
         <div className="tagGrid">
 
-          <div className="tagCard">
-            Students
-          </div>
+          {suitableOptions.map(
+            (item) => (
 
-          <div className="tagCard">
-            Working Professionals
-          </div>
+              <div
+                key={item}
+                className={`tagCard ${
+                  suitableFor.includes(
+                    item
+                  )
+                    ? "active"
+                    : ""
+                }`}
+                onClick={() =>
+                  toggleSuitable(
+                    item
+                  )
+                }
+              >
+                {item}
+              </div>
 
-          <div className="tagCard">
-            Interns
-          </div>
-
-          <div className="tagCard">
-            Job Seekers
-          </div>
+            )
+          )}
 
         </div>
 
-        {/* SAFETY FEATURES */}
+        {/* SAFETY */}
 
         <div className="sectionTitle">
           Safety Features
@@ -438,81 +385,34 @@ function BasicDetails() {
 
         <div className="featureGrid">
 
-          <div className="featureCard">
-            CCTV
-          </div>
+          {safetyOptions.map(
+            (item) => (
 
-          <div className="featureCard">
-            Security Guard
-          </div>
+              <div
+                key={item}
+                className={`featureCard ${
+                  safetyFeatures.includes(
+                    item
+                  )
+                    ? "active"
+                    : ""
+                }`}
+                onClick={() =>
+                  toggleSafety(
+                    item
+                  )
+                }
+              >
+                <FaShieldAlt />
+                <span>
+                  {item}
+                </span>
+              </div>
 
-          <div className="featureCard">
-            Fire Safety
-          </div>
-
-          <div className="featureCard">
-            Biometric Entry
-          </div>
-
-          <div className="featureCard">
-            Women Warden
-          </div>
-
-          <div className="featureCard">
-            Emergency Exit
-          </div>
-
-        </div>
-
-        {/* CONTACT VISIBILITY */}
-
-        <div className="sectionTitle">
-          Contact Visibility
-        </div>
-
-        <div className="toggleBox">
-
-          <label className="toggleItem">
-
-            <input
-              type="checkbox"
-              defaultChecked
-            />
-
-            <span>
-              Show Mobile Number
-            </span>
-
-          </label>
-
-          <label className="toggleItem">
-
-            <input
-              type="checkbox"
-              defaultChecked
-            />
-
-            <span>
-              Show WhatsApp
-            </span>
-
-          </label>
-
-          <label className="toggleItem">
-
-            <input
-              type="checkbox"
-            />
-
-            <span>
-              Show Email
-            </span>
-
-          </label>
+            )
+          )}
 
         </div>
-
-        {/* CONTINUE */}
 
         <button
           className="continueBtn"
@@ -526,7 +426,6 @@ function BasicDetails() {
       </div>
 
     </div>
-
   );
 }
 

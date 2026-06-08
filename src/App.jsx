@@ -5,8 +5,9 @@ import ListYourHostel from "./pages/Owner/ListYourHostel";
 import OwnerRegister from "./pages/Owner/OwnerRegister";
 import OwnerVerification from "./pages/Owner/OwnerVerification";
 import HostelCount from "./pages/Owner/HostelCount";
-import BasicDetails
-from "./pages/Owner/BasicDetails";
+import BasicDetails from "./pages/Owner/BasicDetails";
+import Amenities from "./pages/Owner/Amenities";
+import StudyRoomDetails from "./pages/Owner/StudyRoomDetails";
 
 
 function App() {
@@ -47,6 +48,14 @@ function App() {
           path="/basic-details"
           element={<BasicDetails />}
         />
+         <Route
+          path="/amenities"
+          element={<Amenities />}
+        />
+        <Route
+  path="/study-room"
+  element={<StudyRoomDetails />}
+/>
 
       </Routes>
     </BrowserRouter>
