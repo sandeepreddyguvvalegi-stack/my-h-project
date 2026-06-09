@@ -8,6 +8,9 @@ import HostelCount from "./pages/Owner/HostelCount";
 import BasicDetails from "./pages/Owner/BasicDetails";
 import Amenities from "./pages/Owner/Amenities";
 import StudyRoomDetails from "./pages/Owner/StudyRoomDetails";
+import FoodTimetable from "./pages/Owner/FoodTimetable";
+import RoomPricing from "./pages/Owner/RoomPricing";
+import BuildingSetup from "./pages/Owner/BuildingSetup";
 
 
 function App() {
@@ -56,6 +59,18 @@ function App() {
   path="/study-room"
   element={<StudyRoomDetails />}
 />
+  <Route
+          path="/food-timetable"
+          element={<FoodTimetable />}
+        />
+         <Route
+          path="/room-pricing"
+          element={<RoomPricing />}
+        />
+         <Route
+          path="/building-setup"
+          element={<BuildingSetup />}
+        />
 
       </Routes>
     </BrowserRouter>

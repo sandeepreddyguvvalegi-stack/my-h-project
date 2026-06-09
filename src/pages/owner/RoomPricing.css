@@ -1,0 +1,419 @@
+/* =========================
+   RESET
+========================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:#f7f8fc;
+  font-family:"Segoe UI",sans-serif;
+}
+
+/* =========================
+   PAGE
+========================= */
+
+.pricingPage{
+  min-height:100vh;
+  padding:40px 20px;
+
+  display:flex;
+  justify-content:center;
+
+  background:#f7f8fc;
+}
+
+/* =========================
+   MAIN CARD
+========================= */
+
+.pricingCard{
+  width:100%;
+  max-width:1200px;
+
+  background:white;
+
+  border-radius:28px;
+
+  padding:35px;
+
+  box-shadow:
+  0 15px 40px
+  rgba(0,0,0,.08);
+}
+
+/* =========================
+   BACK BUTTON
+========================= */
+
+.backBtn{
+  position:fixed;
+
+  top:20px;
+  left:20px;
+
+  width:48px;
+  height:48px;
+
+  border:none;
+  border-radius:50%;
+
+  background:white;
+  color:#ff385c;
+
+  cursor:pointer;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  box-shadow:
+  0 5px 15px
+  rgba(0,0,0,.12);
+
+  z-index:100;
+}
+
+.backBtn:hover{
+  transform:translateY(-2px);
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+  text-align:center;
+
+  margin-bottom:35px;
+}
+
+.header h1{
+  font-size:36px;
+  color:#222;
+
+  margin-bottom:10px;
+}
+
+.header p{
+  color:#666;
+  line-height:1.6;
+}
+
+/* =========================
+   SECTION TITLE
+========================= */
+
+.sectionTitle{
+  font-size:22px;
+  font-weight:700;
+
+  color:#222;
+
+  margin-bottom:18px;
+  margin-top:25px;
+}
+
+/* =========================
+   SHARING GRID
+========================= */
+
+.sharingGrid{
+  display:grid;
+
+  grid-template-columns:
+  repeat(auto-fit,minmax(140px,1fr));
+
+  gap:15px;
+
+  margin-bottom:35px;
+}
+
+.sharingCard{
+  border:2px solid #ececec;
+
+  border-radius:18px;
+
+  padding:22px;
+
+  background:white;
+
+  text-align:center;
+
+  cursor:pointer;
+
+  transition:.25s;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+}
+
+.sharingCard svg{
+  font-size:28px;
+  color:#ff385c;
+}
+
+.sharingCard span{
+  font-weight:600;
+}
+
+.sharingCard:hover{
+  transform:translateY(-3px);
+}
+
+.sharingCard.active{
+  border-color:#ff385c;
+  background:#fff1f4;
+}
+
+/* =========================
+   PRICE CARD
+========================= */
+
+.priceCard{
+  border:2px solid #ececec;
+
+  border-radius:22px;
+
+  padding:25px;
+
+  margin-bottom:20px;
+
+  background:#fff;
+}
+
+.priceCard h3{
+  color:#ff385c;
+
+  margin-bottom:18px;
+}
+
+/* =========================
+   INPUT GRID
+========================= */
+
+.inputGrid{
+  display:grid;
+
+  grid-template-columns:
+  repeat(3,1fr);
+
+  gap:15px;
+}
+
+.inputGrid input{
+  width:100%;
+
+  padding:14px;
+
+  border:1px solid #ddd;
+
+  border-radius:14px;
+
+  outline:none;
+
+  font-size:15px;
+}
+
+.inputGrid input:focus{
+  border-color:#ff385c;
+}
+
+/* =========================
+   OPTION GRID
+========================= */
+
+.depositGrid,
+.daysGrid{
+  display:grid;
+
+  grid-template-columns:
+  repeat(auto-fit,minmax(180px,1fr));
+
+  gap:15px;
+
+  margin-bottom:30px;
+}
+
+.optionCard{
+  border:2px solid #ececec;
+
+  border-radius:16px;
+
+  padding:18px;
+
+  text-align:center;
+
+  cursor:pointer;
+
+  font-weight:600;
+
+  transition:.25s;
+}
+
+.optionCard:hover{
+  transform:translateY(-2px);
+}
+
+.optionCard.active{
+  border-color:#ff385c;
+
+  background:#fff1f4;
+
+  color:#ff385c;
+}
+
+/* =========================
+   SERVICES
+========================= */
+
+.serviceGrid{
+  display:grid;
+
+  grid-template-columns:
+  repeat(4,1fr);
+
+  gap:15px;
+
+  margin-bottom:35px;
+}
+
+.serviceCard{
+  border:2px solid #ececec;
+
+  border-radius:18px;
+
+  padding:20px;
+
+  text-align:center;
+
+  cursor:pointer;
+
+  transition:.25s;
+}
+
+.serviceCard:hover{
+  transform:translateY(-2px);
+
+  border-color:#ff385c;
+}
+
+.serviceCard svg{
+  font-size:24px;
+
+  color:#ff385c;
+
+  margin-bottom:10px;
+}
+
+.serviceCard span{
+  display:block;
+
+  font-weight:600;
+}
+
+/* =========================
+   PREVIEW CARD
+========================= */
+
+.previewCard{
+  background:#fafafa;
+
+  border:2px solid #ececec;
+
+  border-radius:22px;
+
+  padding:25px;
+
+  margin-bottom:30px;
+}
+
+.previewCard h2{
+  color:#ff385c;
+
+  margin-bottom:15px;
+}
+
+.previewCard p{
+  margin-bottom:10px;
+
+  color:#444;
+
+  line-height:1.5;
+}
+
+/* =========================
+   CONTINUE BUTTON
+========================= */
+
+.continueBtn{
+  width:100%;
+
+  border:none;
+
+  border-radius:16px;
+
+  background:#ff385c;
+  color:white;
+
+  padding:18px;
+
+  font-size:16px;
+  font-weight:700;
+
+  cursor:pointer;
+
+  transition:.25s;
+}
+
+.continueBtn:hover{
+  transform:translateY(-2px);
+
+  box-shadow:
+  0 10px 25px
+  rgba(255,56,92,.25);
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:768px){
+
+  .pricingPage{
+    padding:20px 15px;
+  }
+
+  .pricingCard{
+    padding:25px;
+  }
+
+  .header h1{
+    font-size:28px;
+  }
+
+  .inputGrid{
+    grid-template-columns:1fr;
+  }
+
+  .serviceGrid{
+    grid-template-columns:
+    repeat(2,1fr);
+  }
+
+  .sharingGrid{
+    grid-template-columns:
+    repeat(2,1fr);
+  }
+
+  .backBtn{
+    top:15px;
+    left:15px;
+  }
+}
