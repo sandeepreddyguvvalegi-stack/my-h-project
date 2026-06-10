@@ -11,6 +11,9 @@ import StudyRoomDetails from "./pages/Owner/StudyRoomDetails";
 import FoodTimetable from "./pages/Owner/FoodTimetable";
 import RoomPricing from "./pages/Owner/RoomPricing";
 import BuildingSetup from "./pages/Owner/BuildingSetup";
+import RulesPolicies from "./pages/Owner/RulesPolicies";
+import LaunchListing from "./pages/Owner/LaunchListing";
+import SuccessPage from "./pages/Owner/SuccessPage";
 
 
 function App() {
@@ -71,7 +74,20 @@ function App() {
           path="/building-setup"
           element={<BuildingSetup />}
         />
+         <Route
+          path="/rules-policies"
+          element={<RulesPolicies />}
+        />
 
+         <Route
+          path="/launch-listing"
+          element={<LaunchListing />}
+        />
+        
+        <Route
+  path="/success-page"
+  element={<SuccessPage />}
+/>
       </Routes>
     </BrowserRouter>
   );

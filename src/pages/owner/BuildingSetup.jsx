@@ -246,7 +246,7 @@ function BuildingSetup() {
           className="continueBtn"
           onClick={() =>
             navigate(
-              "/hostel-media"
+              "/Rulespolicies"
             )
           }
         >
